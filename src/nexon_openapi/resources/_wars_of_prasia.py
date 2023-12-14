@@ -6,6 +6,7 @@ from typing_extensions import Required, TypedDict
 
 import httpx
 
+from ._types import Ocid
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._models import BaseModel
 from ..utils import maybe_transform
@@ -70,10 +71,6 @@ class WarsOfPrasia(SyncAPIResource):
 class GetOcidRequestParam(TypedDict, total=True):
     world_name: Required[str]
     character_name: Required[str]
-
-
-class Ocid(BaseModel):
-    ocid: str
 
 
 class GetCharacterBasicRequestParam(TypedDict, total=False):
