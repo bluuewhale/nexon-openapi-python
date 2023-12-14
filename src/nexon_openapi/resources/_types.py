@@ -6,4 +6,4 @@ class Ocid(BaseModel):
 
 
 class Ouid(BaseModel):
-    ocid: str
+    ouid: str
