@@ -52,7 +52,7 @@ class NexonOpenAPI(SyncAPIClient):
         self.api_key = api_key
 
         if base_url is None:
-            base_url = os.environ.get("NEXON_OPENAPI_API_KEY")
+            base_url = os.environ.get("NEXON_OPENAPI_BASE_URL")
         if base_url is None:
             base_url = f"https://open.api.nexon.com"
 
