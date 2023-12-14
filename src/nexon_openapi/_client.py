@@ -33,7 +33,7 @@ class NexonOpenAPI(SyncAPIClient):
         default_headers: Union[Mapping[str, str], None] = None,
         default_query: Union[Mapping[str, object], None] = None,
         http_client: Union[httpx.Client, None] = None,
-        strict_response_validation: bool = True,
+        strict_response_validation: bool = False,
     ) -> None:
         """construct a new synchronous nexon openapi client instance
 
