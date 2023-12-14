@@ -14,13 +14,14 @@ from ._qs import Querystring
 from .__version__ import __version__
 from ._exceptions import *
 from .utils import is_mapping
-from .resources import WarsOfPrasia
+from .resources import WarsOfPrasia, MabinogiHeroes
 
 
 class NexonOpenAPI(SyncAPIClient):
     api_key: str
 
     wars_of_prasia: WarsOfPrasia
+    mabinogi_heroes: MabinogiHeroes
 
     def __init__(
         self,
@@ -69,6 +70,7 @@ class NexonOpenAPI(SyncAPIClient):
         )
 
         self.wars_of_prasia = WarsOfPrasia(self)
+        self.mabinogi_heroes = MabinogiHeroes(self)
 
     @override
     def _make_status_error(
