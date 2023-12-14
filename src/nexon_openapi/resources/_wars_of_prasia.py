@@ -16,6 +16,8 @@ from .._base_client import make_request_options
 if TYPE_CHECKING:
     from .._client import NexonOpenAPI
 
+__all__ = ["WarsOfPrasia", "WarsOfPrasiaCharacterBasic"]
+
 
 class WarsOfPrasia(SyncAPIResource):
     def __init__(self, client: NexonOpenAPI) -> None:
@@ -54,7 +56,7 @@ class WarsOfPrasia(SyncAPIResource):
         extra_query: Optional[Query] = None,
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
-    ) -> CharacterBasic:
+    ) -> WarsOfPrasiaCharacterBasic:
         return self._get(
             path="wp/v1/character/basic",
             options=make_request_options(
@@ -64,7 +66,7 @@ class WarsOfPrasia(SyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
             ),
-            cast_to=CharacterBasic,
+            cast_to=WarsOfPrasiaCharacterBasic,
         )
 
 
@@ -77,7 +79,7 @@ class GetCharacterBasicRequestParam(TypedDict, total=False):
     ocid: Required[Ocid]
 
 
-class CharacterBasic(BaseModel):
+class WarsOfPrasiaCharacterBasic(BaseModel):
     realm_name: str
     character_name: str
 
