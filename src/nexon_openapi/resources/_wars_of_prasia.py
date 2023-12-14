@@ -32,7 +32,7 @@ class WarsOfPrasia(SyncAPIResource):
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> Ocid:
         return self._get(
-            "/wp/v1/id",
+            "wp/v1/id",
             options=make_request_options(
                 query=maybe_transform(
                     {"world_name": world_name, "character_name": character_name},
