@@ -5,6 +5,11 @@ Nexon Python 라이브러리는 넥슨에서 제공하는 [OpenAPI](https://open
 # Requirements
 Python 3.7 버전 이상
 
+# Install
+```bash
+pip install nexon_openapi
+```
+
 # Features
 Nexon OpeanAPI Python 라이브러리에서 지원하는 기능들은 다음과 같습니다.
 
