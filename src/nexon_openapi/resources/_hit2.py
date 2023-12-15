@@ -70,7 +70,6 @@ class Hit2(SyncAPIResource):
 
 
 class GetOcidRequestParam(TypedDict, total=True):
-    world_name: Required[str]
     character_name: Required[str]
 
 
