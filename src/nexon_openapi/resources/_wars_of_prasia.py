@@ -32,8 +32,8 @@ class WarsOfPrasia(SyncAPIResource):
         extra_query: Optional[Query] = None,
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
-    ) -> Ocid:
-        return self._get(
+    ) -> str:
+        response = self._get(
             "wp/v1/id",
             options=make_request_options(
                 query=maybe_transform(
@@ -48,10 +48,12 @@ class WarsOfPrasia(SyncAPIResource):
             cast_to=Ocid,
         )
 
+        return response.ocid
+
     def get_character_basic(
         self,
         *,
-        ocid: Ocid,
+        ocid: str,
         extra_headers: Optional[Headers] = None,
         extra_query: Optional[Query] = None,
         extra_body: Optional[Body] = None,
@@ -60,7 +62,7 @@ class WarsOfPrasia(SyncAPIResource):
         return self._get(
             path="wp/v1/character/basic",
             options=make_request_options(
-                query=maybe_transform({"ocid": ocid.ocid}, GetCharacterBasicRequestParam),
+                query=maybe_transform({"ocid": ocid}, GetCharacterBasicRequestParam),
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
