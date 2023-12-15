@@ -181,7 +181,7 @@ class GetOcidRequestParam(TypedDict, total=True):
 
 
 class GetCharacterBasicRequestParam(TypedDict, total=False):
-    ocid: Required[Ocid]
+    ocid: Required[str]
 
 
 class MabinogiHeroesCharacterBasic(BaseModel):
@@ -211,7 +211,7 @@ class MabinogiHeroesCharacterBasic(BaseModel):
 
 
 class GetCharacterTitleRequestParam(TypedDict, total=False):
-    ocid: Required[Ocid]
+    ocid: Required[str]
 
 
 class MabinogiHeroesCharacterTitle(BaseModel):
@@ -226,7 +226,7 @@ class MabinogiHeroesCharacterTitle(BaseModel):
 
 
 class GetCharacterTitleEquipmentRequestParam(TypedDict, total=False):
-    ocid: Required[Ocid]
+    ocid: Required[str]
 
 
 class MabinogiHeroesCharacterTitleEquipment(BaseModel):
@@ -243,7 +243,7 @@ class MabinogiHeroesCharacterTitleEquipment(BaseModel):
         """타이틀/문양 명"""
 
 class GetCharacterItemEquipmentRequestParam(TypedDict, total=False):
-    ocid: Required[Ocid]
+    ocid: Required[str]
 
 
 class MabinogiHeroesCharacterItemEquipment(BaseModel):
@@ -262,7 +262,7 @@ class MabinogiHeroesCharacterItemEquipment(BaseModel):
 
 
 class GetCharacterStatRequestParam(TypedDict, total=False):
-    ocid: Required[Ocid]
+    ocid: Required[str]
 
 
 class MabinogiHeroesCharacterStat(BaseModel):
@@ -278,7 +278,7 @@ class MabinogiHeroesCharacterStat(BaseModel):
 
 
 class GetCharacterGuildRequestParam(TypedDict, total=False):
-    ocid: Required[Ocid]
+    ocid: Required[str]
 
 
 class MabinogiHeroesCharacterGuild(BaseModel):

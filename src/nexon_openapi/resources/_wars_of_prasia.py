@@ -78,7 +78,7 @@ class GetOcidRequestParam(TypedDict, total=True):
 
 
 class GetCharacterBasicRequestParam(TypedDict, total=False):
-    ocid: Required[Ocid]
+    ocid: Required[str]
 
 
 class WarsOfPrasiaCharacterBasic(BaseModel):
