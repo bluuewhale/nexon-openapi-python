@@ -5,3 +5,4 @@ from ._maplestorym import MapleStoryM as MapleStoryM
 from ._baram import Baram as Baram
 from ._baramy import BaramY as BaramY
 from ._kartrush import KartRiderRushPlus as KartRiderRushPlus
+from ._hit2 import Hit2 as Hit2
