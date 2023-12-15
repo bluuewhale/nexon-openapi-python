@@ -14,7 +14,7 @@ from ._qs import Querystring
 from .__version__ import __version__
 from ._exceptions import *
 from .utils import is_mapping
-from .resources import WarsOfPrasia, MabinogiHeroes, CrazyArcade, MapleStoryM, Baram, BaramY, KartRiderRushPlus, Hit2
+from .resources import WarsOfPrasia, MabinogiHeroes, CrazyArcade, MapleStoryM, Baram, BaramY, KartRiderRushPlus, Hit2, V4
 
 
 class NexonOpenAPI(SyncAPIClient):
@@ -28,6 +28,7 @@ class NexonOpenAPI(SyncAPIClient):
     baramy: BaramY
     kartrush: KartRiderRushPlus
     hit2: Hit2
+    v4: V4
 
     def __init__(
         self,
@@ -83,6 +84,7 @@ class NexonOpenAPI(SyncAPIClient):
         self.baramy = BaramY(self)
         self.kartrush = KartRiderRushPlus(self)
         self.hit2 = Hit2(self)
+        self.v4 = V4(self)
 
     @override
     def _make_status_error(
