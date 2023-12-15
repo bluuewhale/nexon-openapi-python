@@ -12,13 +12,12 @@ from typing import (
     List,
     Mapping,
     Optional,
-    Protocol,
     Set,
     Type,
     TypeVar,
     Union,
 )
-from typing_extensions import Literal, TypedDict, override, runtime_checkable
+from typing_extensions import Literal, TypedDict, override, runtime_checkable, Protocol
 
 from httpx import Response, Timeout
 import pydantic

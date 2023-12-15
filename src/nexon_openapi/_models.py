@@ -9,14 +9,13 @@ from typing import (
     ClassVar,
     Dict,
     Optional,
-    Protocol,
     Set,
     Type,
     TypeVar,
     Union,
     cast,
 )
-from typing_extensions import Literal, Unpack, ClassVar, Required, TypedDict, final, override, runtime_checkable
+from typing_extensions import Literal, Unpack, ClassVar, Required, TypedDict, final, override, runtime_checkable, Protocol
 
 
 from httpx import Timeout
