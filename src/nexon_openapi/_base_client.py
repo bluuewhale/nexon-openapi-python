@@ -19,7 +19,6 @@ from typing import (
     Type,
     cast,
 )
-from typing_extensions import overload
 import anyio
 
 import httpx
