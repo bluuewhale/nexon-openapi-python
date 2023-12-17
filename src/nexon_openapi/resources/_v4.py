@@ -10,11 +10,11 @@ from ._types import Ocid
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._models import BaseModel
 from ..utils import maybe_transform
-from .._resource import SyncAPIResource
+from .._resource import SyncAPIResource, AsyncAPIResource
 from .._base_client import make_request_options
 
 if TYPE_CHECKING:
-    from .._client import NexonOpenAPI
+    from .._client import NexonOpenAPI, NexonOpenAPIAsync
 
 
 class V4(SyncAPIResource):
@@ -99,6 +99,100 @@ class V4(SyncAPIResource):
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> V4CharacterHonorEquipment:
         return self._get(
+            path="v4/v1/character/honor-equipment",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid}, GetCharacterHonorEquipmentRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=V4CharacterHonorEquipment,
+        )
+
+
+class V4Async(AsyncAPIResource):
+    def __init__(self, client: NexonOpenAPIAsync) -> None:
+        super().__init__(client)
+
+    async def get_ocid(
+        self,
+        *,
+        character_name: str,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> str:
+        response = await self._get(
+            "v4/v1/id",
+            options=make_request_options(
+                query=maybe_transform(
+                    {"character_name": character_name},
+                    GetOcidRequestParam,
+                ),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=Ocid,
+        )
+
+        return response.ocid
+
+    async def get_character_basic(
+        self,
+        *,
+        ocid: str,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> V4CharacterBasic:
+        return await self._get(
+            path="v4/v1/character/basic",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid}, GetCharacterBasicRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=V4CharacterBasic,
+        )
+
+    async def get_character_honor(
+        self,
+        *,
+        ocid: str,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> V4CharacterHonor:
+        return await self._get(
+            path="v4/v1/character/honor",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid}, GetCharacterHonorRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=V4CharacterHonor,
+        )
+
+    async def get_character_honor_equipment(
+        self,
+        *,
+        ocid: str,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> V4CharacterHonorEquipment:
+        return await self._get(
             path="v4/v1/character/honor-equipment",
             options=make_request_options(
                 query=maybe_transform({"ocid": ocid}, GetCharacterHonorEquipmentRequestParam),

@@ -31,6 +31,7 @@ from .resources import (
     Hit2,
     Hit2Async,
     V4,
+    V4Async,
 )
 
 
@@ -167,7 +168,7 @@ class NexonOpenAPIAsync(AsyncAPIClient):
     baramy: BaramYAsync
     kartrush: KartRiderRushPlusAsync
     hit2: Hit2Async
-    # v4: V4
+    v4: V4Async
 
     def __init__(
         self,
@@ -223,7 +224,7 @@ class NexonOpenAPIAsync(AsyncAPIClient):
         self.baramy = BaramYAsync(self)
         self.kartrush = KartRiderRushPlusAsync(self)
         self.hit2 = Hit2Async(self)
-        # self.v4 = V4(self)
+        self.v4 = V4Async(self)
 
     @override
     def _make_status_error(
