@@ -26,6 +26,7 @@ from .resources import (
     BaramYAsync,
     KartRiderRushPlus,
     Hit2,
+    Hit2Async,
     V4,
 )
 
@@ -162,7 +163,7 @@ class NexonOpenAPIAsync(AsyncAPIClient):
     baram: BaramAsync
     baramy: BaramYAsync
     # kartrush: KartRiderRushPlus
-    # hit2: Hit2
+    hit2: Hit2Async
     # v4: V4
 
     def __init__(
@@ -218,7 +219,7 @@ class NexonOpenAPIAsync(AsyncAPIClient):
         self.baram = BaramAsync(self)
         self.baramy = BaramYAsync(self)
         # self.kartrush = KartRiderRushPlus(self)
-        # self.hit2 = Hit2(self)
+        self.hit2 = Hit2Async(self)
         # self.v4 = V4(self)
 
     @override
