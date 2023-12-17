@@ -25,6 +25,7 @@ from .resources import (
     BaramY,
     BaramYAsync,
     KartRiderRushPlus,
+    KartRiderRushPlusAsync,
     Hit2,
     Hit2Async,
     V4,
@@ -162,7 +163,7 @@ class NexonOpenAPIAsync(AsyncAPIClient):
     # maplestorym: MapleStoryM
     baram: BaramAsync
     baramy: BaramYAsync
-    # kartrush: KartRiderRushPlus
+    kartrush: KartRiderRushPlusAsync
     hit2: Hit2Async
     # v4: V4
 
@@ -218,7 +219,7 @@ class NexonOpenAPIAsync(AsyncAPIClient):
         # self.maplestorym = MapleStoryM(self)
         self.baram = BaramAsync(self)
         self.baramy = BaramYAsync(self)
-        # self.kartrush = KartRiderRushPlus(self)
+        self.kartrush = KartRiderRushPlusAsync(self)
         self.hit2 = Hit2Async(self)
         # self.v4 = V4(self)
 
