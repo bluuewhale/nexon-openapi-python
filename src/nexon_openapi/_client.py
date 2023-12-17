@@ -17,6 +17,7 @@ from .utils import is_mapping
 from .resources import (
     WarsOfPrasia,
     MabinogiHeroes,
+    MabinogiHeroesAsync,
     CrazyArcade,
     CrazyArcadeAsync,
     MapleStoryM,
@@ -158,7 +159,7 @@ class NexonOpenAPIAsync(AsyncAPIClient):
     api_key: str
 
     # wars_of_prasia: WarsOfPrasia
-    # mabinogi_heroes: MabinogiHeroes
+    mabinogi_heroes: MabinogiHeroesAsync
     crazy_arcade: CrazyArcadeAsync
     # maplestorym: MapleStoryM
     baram: BaramAsync
@@ -214,7 +215,7 @@ class NexonOpenAPIAsync(AsyncAPIClient):
         )
 
         # self.wars_of_prasia = WarsOfPrasia(self)
-        # self.mabinogi_heroes = MabinogiHeroes(self)
+        self.mabinogi_heroes = MabinogiHeroesAsync(self)
         self.crazy_arcade = CrazyArcadeAsync(self)
         # self.maplestorym = MapleStoryM(self)
         self.baram = BaramAsync(self)

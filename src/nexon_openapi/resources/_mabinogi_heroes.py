@@ -10,11 +10,11 @@ from ._types import Ocid
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._models import BaseModel
 from ..utils import maybe_transform
-from .._resource import SyncAPIResource
+from .._resource import SyncAPIResource, AsyncAPIResource
 from .._base_client import make_request_options
 
 if TYPE_CHECKING:
-    from .._client import NexonOpenAPI
+    from .._client import NexonOpenAPI, NexonOpenAPIAsync
 
 __all__ = ["MabinogiHeroes", "MabinogiHeroesCharacterBasic"]
 
@@ -176,6 +176,163 @@ class MabinogiHeroes(SyncAPIResource):
         )
 
 
+class MabinogiHeroesAsync(AsyncAPIResource):
+    def __init__(self, client: NexonOpenAPIAsync) -> None:
+        super().__init__(client)
+
+    async def get_ocid(
+        self,
+        *,
+        character_name: str,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> str:
+        response = await self._get(
+            "heroes/v1/id",
+            options=make_request_options(
+                query=maybe_transform(
+                    {"character_name": character_name},
+                    GetOcidRequestParam,
+                ),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=Ocid,
+        )
+
+        return response.ocid
+
+    async def get_character_basic(
+        self,
+        *,
+        ocid: str,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MabinogiHeroesCharacterBasic:
+        return await self._get(
+            path="heroes/v1/character/basic",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid}, GetCharacterBasicRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MabinogiHeroesCharacterBasic,
+        )
+
+    async def get_character_title(
+        self,
+        *,
+        ocid: str,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MabinogiHeroesCharacterTitle:
+        return await self._get(
+            path="heroes/v1/character/title",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid}, GetCharacterTitleRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MabinogiHeroesCharacterTitle,
+        )
+
+    async def get_character_title_equipment(
+        self,
+        *,
+        ocid: str,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MabinogiHeroesCharacterTitleEquipment:
+        return await self._get(
+            path="heroes/v1/character/title-equipment",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid}, GetCharacterTitleEquipmentRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MabinogiHeroesCharacterTitleEquipment,
+        )
+
+    async def get_character_item_equipment(
+        self,
+        *,
+        ocid: str,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MabinogiHeroesCharacterItemEquipment:
+        return await self._get(
+            path="heroes/v1/character/item-equipment",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid}, GetCharacterItemEquipmentRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MabinogiHeroesCharacterItemEquipment,
+        )
+
+    async def get_character_stat(
+        self,
+        *,
+        ocid: str,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MabinogiHeroesCharacterStat:
+        return await self._get(
+            path="heroes/v1/character/stat",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid}, GetCharacterStatRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MabinogiHeroesCharacterStat,
+        )
+
+    async def get_character_guild(
+        self,
+        *,
+        ocid: str,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MabinogiHeroesCharacterGuild:
+        return await self._get(
+            path="heroes/v1/character/guild",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid}, GetCharacterGuildRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MabinogiHeroesCharacterGuild,
+        )
+
+
 class GetOcidRequestParam(TypedDict, total=True):
     character_name: Required[str]
 
@@ -215,7 +372,7 @@ class GetCharacterTitleRequestParam(TypedDict, total=False):
 
 
 class MabinogiHeroesCharacterTitle(BaseModel):
-    title: List[Title] 
+    title: List[Title]
 
     class Title(BaseModel):
         title_type: str
@@ -242,6 +399,7 @@ class MabinogiHeroesCharacterTitleEquipment(BaseModel):
         title_name: str
         """타이틀/문양 명"""
 
+
 class GetCharacterItemEquipmentRequestParam(TypedDict, total=False):
     ocid: Required[str]
 
@@ -260,7 +418,6 @@ class MabinogiHeroesCharacterItemEquipment(BaseModel):
         """장착 아이템 명"""
 
 
-
 class GetCharacterStatRequestParam(TypedDict, total=False):
     ocid: Required[str]
 
@@ -274,7 +431,6 @@ class MabinogiHeroesCharacterStat(BaseModel):
 
         stat_value: str
         """능력치 값"""
-
 
 
 class GetCharacterGuildRequestParam(TypedDict, total=False):
