@@ -1,4 +1,5 @@
 from __future__ import annotations
+import asyncio
 
 import email
 import email.utils
@@ -18,6 +19,8 @@ from typing import (
     Type,
     cast,
 )
+from typing_extensions import overload
+import anyio
 
 import httpx
 
@@ -606,3 +609,237 @@ def _merge_mappings(
     """
     merged = {**obj1, **obj2}
     return {key: value for key, value in merged.items() if not isinstance(value, Omit)}
+
+
+class AsyncHttpxClientWrapper(httpx.AsyncClient):
+    def __del__(self) -> None:
+        try:
+            asyncio.get_running_loop().create_task(self.aclose())
+        except Exception:
+            pass
+
+
+class AsyncAPIClient(BaseClient[httpx.AsyncClient]):
+    _client: httpx.AsyncClient
+
+    def __init__(
+        self,
+        *,
+        version: str,
+        base_url: Union[str, httpx.URL],
+        max_retries: int = DEFAULT_MAX_RETRIES,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+        http_client: Optional[httpx.AsyncClient] = None,
+        custom_headers: Optional[Mapping[str, str]] = None,
+        custom_query: Optional[Mapping[str, object]] = None,
+        strict_response_validation: bool,
+    ) -> None:
+        limits = DEFAULT_LIMITS
+
+        if not is_given(timeout):
+            # if the user passed in a custom http client with a non-default
+            # timeout set then we use that timeout.
+            #
+            # note: there is an edge case here where the user passes in a client
+            # where they've explicitly set the timeout to match the default timeout
+            # as this check is structural, meaning that we'll think they didn't
+            # pass in a timeout and will ignore it
+            if http_client and http_client.timeout != HTTPX_DEFAULT_TIMEOUT:
+                timeout = http_client.timeout
+            else:
+                timeout = DEFAULT_TIMEOUT
+
+        super().__init__(
+            version=version,
+            base_url=base_url,
+            limits=limits,
+            # cast to a valid type because mypy doesn't understand our type narrowing
+            timeout=cast(httpx.Timeout, timeout),
+            max_retries=max_retries,
+            custom_query=custom_query,
+            custom_headers=custom_headers,
+            strict_response_validation=strict_response_validation,
+        )
+
+        self._client = http_client or AsyncHttpxClientWrapper(
+            base_url=base_url,
+            # cast to a valid type because mypy doesn't understand our type narrowing
+            timeout=cast(httpx.Timeout, timeout),
+            limits=limits,
+        )
+
+    def is_closed(self) -> bool:
+        return self._client.is_closed
+
+    async def close(self) -> None:
+        """Close the underlying HTTPX client.
+
+        The client will *not* be usable after this.
+        """
+        await self._client.aclose()
+
+    async def __aenter__(self: _T) -> _T:
+        return self
+
+    async def __aexit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc: BaseException | None,
+        exc_tb: TracebackType | None,
+    ) -> None:
+        await self.close()
+
+    async def _prepare_options(
+        self,
+        options: FinalRequestOptions,  # noqa: ARG002
+    ) -> None:
+        """Hook for mutating the given options"""
+        return None
+
+    async def _prepare_request(
+        self,
+        request: httpx.Request,  # noqa: ARG002
+    ) -> None:
+        """This method is used as a callback for mutating the `Request` object
+        after it has been constructed.
+        This is useful for cases where you want to add certain headers based off of
+        the request properties, e.g. `url`, `method` etc.
+        """
+        return None
+
+    async def request(
+        self, cast_to: Type[ResponseT], options: FinalRequestOptions, *, remaining_retries: Optional[int] = None
+    ) -> ResponseT:
+        await self._prepare_options(options)
+
+        retries = self._remaining_retries(remaining_retries, options)
+        request = self._build_request(options)
+        await self._prepare_request(request)
+
+        try:
+            response = await self._client.send(
+                request,
+                auth=self.custom_auth,
+            )
+        except httpx.TimeoutException as err:
+            if retries > 0:
+                return await self._retry_request(
+                    options,
+                    cast_to,
+                    retries,
+                    response_headers=None,
+                )
+
+            raise APITimeoutError(request=request) from err
+        except Exception as err:
+            if retries > 0:
+                return await self._retry_request(
+                    options,
+                    cast_to,
+                    retries,
+                    response_headers=None,
+                )
+
+            raise APIConnectionError(request=request) from err
+
+        log.debug(
+            'HTTP Request: %s %s "%i %s"', request.method, request.url, response.status_code, response.reason_phrase
+        )
+
+        try:
+            response.raise_for_status()
+        except httpx.HTTPStatusError as err:  # thrown on 4xx and 5xx status code
+            if retries > 0 and self._should_retry(err.response):
+                await err.response.aclose()
+                return await self._retry_request(
+                    options,
+                    cast_to,
+                    retries,
+                    err.response.headers,
+                )
+
+            # If the response is streamed then we need to explicitly read the response
+            # to completion before attempting to access the response text.
+            if not err.response.is_closed:
+                await err.response.aread()
+
+            raise self._make_status_error_from_response(err.response) from None
+
+        return self._process_response(
+            cast_to=cast_to,
+            options=options,
+            response=response,
+        )
+
+    async def _retry_request(
+        self,
+        options: FinalRequestOptions,
+        cast_to: Type[ResponseT],
+        remaining_retries: int,
+        response_headers: httpx.Headers | None,
+    ) -> ResponseT:
+        remaining = remaining_retries - 1
+        timeout = self._calculate_retry_timeout(remaining, options, response_headers)
+        log.info("Retrying request to %s in %f seconds", options.url, timeout)
+
+        await anyio.sleep(timeout)
+
+        return await self.request(
+            options=options,
+            cast_to=cast_to,
+            remaining_retries=remaining,
+        )
+
+    async def get(
+        self,
+        path: str,
+        *,
+        cast_to: Type[ResponseT],
+        options: RequestOptions = {},
+    ) -> ResponseT:
+        opts = FinalRequestOptions.construct(method="get", url=path, **options)
+        return await self.request(cast_to, opts)
+
+    async def post(
+        self,
+        path: str,
+        *,
+        cast_to: Type[ResponseT],
+        body: Body | None = None,
+        options: RequestOptions = {},
+    ) -> ResponseT:
+        opts = FinalRequestOptions.construct(method="post", url=path, json_data=body, **options)
+        return await self.request(cast_to, opts)
+
+    async def patch(
+        self,
+        path: str,
+        *,
+        cast_to: Type[ResponseT],
+        body: Body | None = None,
+        options: RequestOptions = {},
+    ) -> ResponseT:
+        opts = FinalRequestOptions.construct(method="patch", url=path, json_data=body, **options)
+        return await self.request(cast_to, opts)
+
+    async def put(
+        self,
+        path: str,
+        *,
+        cast_to: Type[ResponseT],
+        body: Body | None = None,
+        options: RequestOptions = {},
+    ) -> ResponseT:
+        opts = FinalRequestOptions.construct(method="put", url=path, json_data=body, **options)
+        return await self.request(cast_to, opts)
+
+    async def delete(
+        self,
+        path: str,
+        *,
+        cast_to: Type[ResponseT],
+        body: Body | None = None,
+        options: RequestOptions = {},
+    ) -> ResponseT:
+        opts = FinalRequestOptions.construct(method="delete", url=path, json_data=body, **options)
+        return await self.request(cast_to, opts)
