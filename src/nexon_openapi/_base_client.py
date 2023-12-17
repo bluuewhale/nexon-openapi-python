@@ -629,12 +629,13 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient]):
         base_url: Union[str, httpx.URL],
         max_retries: int = DEFAULT_MAX_RETRIES,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+        limits: Optional[httpx.Limits] = None,
         http_client: Optional[httpx.AsyncClient] = None,
         custom_headers: Optional[Mapping[str, str]] = None,
         custom_query: Optional[Mapping[str, object]] = None,
         strict_response_validation: bool,
     ) -> None:
-        limits = DEFAULT_LIMITS
+        limits = DEFAULT_LIMITS if limits is None else limits
 
         if not is_given(timeout):
             # if the user passed in a custom http client with a non-default
