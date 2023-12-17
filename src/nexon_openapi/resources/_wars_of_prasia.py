@@ -10,11 +10,11 @@ from ._types import Ocid
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._models import BaseModel
 from ..utils import maybe_transform
-from .._resource import SyncAPIResource
+from .._resource import SyncAPIResource, AsyncAPIResource
 from .._base_client import make_request_options
 
 if TYPE_CHECKING:
-    from .._client import NexonOpenAPI
+    from .._client import NexonOpenAPI, NexonOpenAPIAsync
 
 __all__ = ["WarsOfPrasia", "WarsOfPrasiaCharacterBasic"]
 
@@ -60,6 +60,59 @@ class WarsOfPrasia(SyncAPIResource):
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> WarsOfPrasiaCharacterBasic:
         return self._get(
+            path="wp/v1/character/basic",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid}, GetCharacterBasicRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=WarsOfPrasiaCharacterBasic,
+        )
+
+
+class WarsOfPrasiaAsync(AsyncAPIResource):
+    def __init__(self, client: NexonOpenAPIAsync) -> None:
+        super().__init__(client)
+
+    async def get_ocid(
+        self,
+        *,
+        world_name: str,
+        character_name: str,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> str:
+        response = await self._get(
+            "wp/v1/id",
+            options=make_request_options(
+                query=maybe_transform(
+                    {"world_name": world_name, "character_name": character_name},
+                    GetOcidRequestParam,
+                ),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=Ocid,
+        )
+
+        return response.ocid
+
+    async def get_character_basic(
+        self,
+        *,
+        ocid: str,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> WarsOfPrasiaCharacterBasic:
+        return await self._get(
             path="wp/v1/character/basic",
             options=make_request_options(
                 query=maybe_transform({"ocid": ocid}, GetCharacterBasicRequestParam),

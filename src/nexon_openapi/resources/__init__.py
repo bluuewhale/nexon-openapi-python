@@ -1,4 +1,4 @@
-from ._wars_of_prasia import WarsOfPrasia as WarsOfPrasia
+from ._wars_of_prasia import WarsOfPrasia as WarsOfPrasia, WarsOfPrasiaAsync as WarsOfPrasiaAsync
 from ._mabinogi_heroes import MabinogiHeroes as MabinogiHeroes, MabinogiHeroesAsync as MabinogiHeroesAsync
 from ._crazy_arcade import CrazyArcade as CrazyArcade, CrazyArcadeAsync as CrazyArcadeAsync
 from ._maplestorym import MapleStoryM as MapleStoryM, MapleStoryMAsync as MapleStoryMAsync
