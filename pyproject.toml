@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "nexon_openapi"
-version = "0.0.1"
+version = "0.0.2"
 description = ""
 authors = ["bluewhale <koko8624@gmail.com>"]
 readme = "README.md"
