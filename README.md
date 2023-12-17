@@ -13,8 +13,9 @@ pip install nexon_openapi
 ## Features
 Nexon OpeanAPI Python 라이브러리에서 지원하는 기능들은 다음과 같습니다.
 
-- 넥슨 OpenAPI에 대한 동기 및 비동기 (`예정`) 클라이언트 지원
-- 일시적인 오류에 대한 재시도 (`408`, `409`, `429`, `500`)
+- 넥슨 OpenAPI에 대한 동기 및 비동기 클라이언트 지원
+- 요청/응답에 대한 강력한 타입 힌트 지원
+- 일시적인 오류에 대한 자동 재시도 (`408`, `409`, `429`, `500`)
 
 ## Supported APIs
 현재까지 지원되는 API 목록은 다음과 같습니다.
@@ -31,11 +32,8 @@ Nexon OpeanAPI Python 라이브러리에서 지원하는 기능들은 다음과 
 - FC 온라인 (`예정`)
 
 
-## Documentation
-API 문서는 [여기]()에서 확인하실 수 있습니다.
-
 ## Usage
-제공되는 전체 API 목록은 [api.md]()에서 확인하실 수 있습니다.
+API 호출 예제는 [여기](https://github.com/BlueWhaleKo/nexon-openapi-python/tree/main/examples)에서 확인하실 수 있습니다.
 
 ```python
 import os
@@ -48,7 +46,25 @@ client = NexonOpenAPI(
 ocid = client.mabinogi_heroes.get_ocid(character_name="")
 character_basic = client.mabinogi_heroes.get_character_basic(ocid=ocid)
 
-print(character_baisc)
+```
+
+## Async usage
+API 호출 예제는 [여기](https://github.com/BlueWhaleKo/nexon-openapi-python/tree/main/examples)에서 확인하실 수 있습니다.
+
+```python
+import asyncio
+import os
+from nexon_openapi import NexonOpenAPIAsync
+
+client = NexonOpenAPIAsync(
+    api_key=os.environ.get("NEXON_OPENAPI_API_KEY") # api_key 값이 주어지지 않은 경우, 기본적으로 내부적으로 환경 변수(`NEXON_OPEN_API_KEY`)를 파싱합니다.
+)
+
+async def main() -> None:
+    ocid = await client.mabinogi_heroes.get_ocid(character_name="")
+    character_basic = await client.mabinogi_heroes.get_character_basic(ocid=ocid)
+
+asyncio.run(main())
 ```
 
 ## Examples
