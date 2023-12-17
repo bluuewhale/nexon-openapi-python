@@ -10,11 +10,11 @@ from ._types import Ocid
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._models import BaseModel
 from ..utils import maybe_transform
-from .._resource import SyncAPIResource
+from .._resource import SyncAPIResource, AsyncAPIResource
 from .._base_client import make_request_options
 
 if TYPE_CHECKING:
-    from .._client import NexonOpenAPI
+    from .._client import NexonOpenAPI, NexonOpenAPIAsync
 
 
 class MapleStoryM(SyncAPIResource):
@@ -121,6 +121,122 @@ class MapleStoryM(SyncAPIResource):
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryMCharacterGuild:
         return self._get(
+            path="maplestorym/v1/character/guild",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid}, GetCharacterGuildRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryMCharacterGuild,
+        )
+
+
+class MapleStoryMAsync(AsyncAPIResource):
+    def __init__(self, client: NexonOpenAPIAsync) -> None:
+        super().__init__(client)
+
+    async def get_ocid(
+        self,
+        *,
+        world_name: str,
+        character_name: str,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> str:
+        response = await self._get(
+            "maplestorym/v1/id",
+            options=make_request_options(
+                query=maybe_transform(
+                    {"world_name": world_name, "character_name": character_name},
+                    GetOcidRequestParam,
+                ),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=Ocid,
+        )
+
+        return response.ocid
+
+    async def get_character_basic(
+        self,
+        *,
+        ocid: str,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryMCharacterBasic:
+        return await self._get(
+            path="maplestorym/v1/character/basic",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid}, GetCharacterBasicRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryMCharacterBasic,
+        )
+
+    async def get_character_item_equipment(
+        self,
+        *,
+        ocid: str,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryMCharacterItemEquipment:
+        return await self._get(
+            path="maplestorym/v1/character/item-equipment",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid}, GetCharacterItemEquipmentRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryMCharacterItemEquipment,
+        )
+
+    async def get_character_stat(
+        self,
+        *,
+        ocid: str,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryMCharacterStat:
+        return await self._get(
+            path="maplestorym/v1/character/stat",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid}, GetCharacterStatRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryMCharacterStat,
+        )
+
+    async def get_character_guild(
+        self,
+        *,
+        ocid: str,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryMCharacterGuild:
+        return await self._get(
             path="maplestorym/v1/character/guild",
             options=make_request_options(
                 query=maybe_transform({"ocid": ocid}, GetCharacterGuildRequestParam),
