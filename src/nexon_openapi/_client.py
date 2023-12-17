@@ -18,6 +18,7 @@ from .resources import (
     WarsOfPrasia,
     MabinogiHeroes,
     CrazyArcade,
+    CrazyArcadeAsync,
     MapleStoryM,
     Baram,
     BaramAsync,
@@ -156,7 +157,7 @@ class NexonOpenAPIAsync(AsyncAPIClient):
 
     # wars_of_prasia: WarsOfPrasia
     # mabinogi_heroes: MabinogiHeroes
-    # crazy_arcade: CrazyArcade
+    crazy_arcade: CrazyArcadeAsync
     # maplestorym: MapleStoryM
     baram: BaramAsync
     baramy: BaramYAsync
@@ -212,7 +213,7 @@ class NexonOpenAPIAsync(AsyncAPIClient):
 
         # self.wars_of_prasia = WarsOfPrasia(self)
         # self.mabinogi_heroes = MabinogiHeroes(self)
-        # self.crazy_arcade = CrazyArcade(self)
+        self.crazy_arcade = CrazyArcadeAsync(self)
         # self.maplestorym = MapleStoryM(self)
         self.baram = BaramAsync(self)
         self.baramy = BaramYAsync(self)
