@@ -33,6 +33,8 @@ from .resources import (
     Hit2Async,
     V4,
     V4Async,
+    FCOnline,
+    FCOnlineAsync
 )
 
 
@@ -48,6 +50,7 @@ class NexonOpenAPI(SyncAPIClient):
     kartrush: KartRiderRushPlus
     hit2: Hit2
     v4: V4
+    fc_online: FCOnline
 
     def __init__(
         self,
@@ -104,6 +107,7 @@ class NexonOpenAPI(SyncAPIClient):
         self.kartrush = KartRiderRushPlus(self)
         self.hit2 = Hit2(self)
         self.v4 = V4(self)
+        self.fc_online = FCOnline(self)
 
     @override
     def _make_status_error(
@@ -170,6 +174,7 @@ class NexonOpenAPIAsync(AsyncAPIClient):
     kartrush: KartRiderRushPlusAsync
     hit2: Hit2Async
     v4: V4Async
+    fc_online: FCOnlineAsync
 
     def __init__(
         self,
@@ -226,6 +231,7 @@ class NexonOpenAPIAsync(AsyncAPIClient):
         self.kartrush = KartRiderRushPlusAsync(self)
         self.hit2 = Hit2Async(self)
         self.v4 = V4Async(self)
+        self.fc_online = FCOnlineAsync(self)
 
     @override
     def _make_status_error(
