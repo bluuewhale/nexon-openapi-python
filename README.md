@@ -43,7 +43,7 @@ client = NexonOpenAPI(
     api_key=os.environ.get("NEXON_OPENAPI_API_KEY") # api_key 값이 주어지지 않은 경우, 기본적으로 환경 변수(`NEXON_OPEN_API_KEY`)를 파싱합니다.
 )
 
-ocid = client.mabinogi_heroes.get_ocid(character_name="")
+ocid = client.maplestory.get_ocid(character_name="")
 character_basic = client.maplestory.get_character_basic(ocid=ocid)
 
 ```
