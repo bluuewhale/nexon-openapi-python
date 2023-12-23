@@ -596,6 +596,55 @@ class MapleStory(SyncAPIResource):
             cast_to=MapleStoryUserUnionRaider,
         )
 
+    def get_guild_id(
+        self,
+        *,
+        world_name: str,
+        guild_name: str,
+        date: Optional[str] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> str:
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return self._get(
+            path="maplestory/v1/guild/id",
+            options=make_request_options(
+                query=maybe_transform({"world_name": world_name, "guild_name": guild_name}, GetGuildIdRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryGuildId,
+        ).oguild_id
+
+    def get_guild_basic(
+        self,
+        *,
+        guild_id: str,
+        date: Optional[str] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryGuildBasic:
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return self._get(
+            path="maplestory/v1/guild/basic",
+            options=make_request_options(
+                query=maybe_transform({"oguild_id": guild_id, "date": date}, GetGuildBasicRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryGuildBasic,
+        )
+
 
 class MapleStoryAsync(AsyncAPIResource):
     def __init__(self, client: NexonOpenAPIAsync) -> None:
@@ -1168,6 +1217,55 @@ class MapleStoryAsync(AsyncAPIResource):
                 timeout=timeout,
             ),
             cast_to=MapleStoryUserUnionRaider,
+        )
+
+    async def get_guild_id(
+        self,
+        *,
+        world_name: str,
+        guild_name: str,
+        date: Optional[str] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> str:
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return (await self._get(
+            path="maplestory/v1/guild/id",
+            options=make_request_options(
+                query=maybe_transform({"world_name": world_name, "guild_name": guild_name}, GetGuildIdRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryGuildId,
+        )).oguild_id
+
+    async def get_guild_basic(
+        self,
+        *,
+        guild_id: str,
+        date: Optional[str] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryGuildBasic:
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return await self._get(
+            path="maplestory/v1/guild/basic",
+            options=make_request_options(
+                query=maybe_transform({"oguild_id": guild_id, "date": date}, GetGuildBasicRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryGuildBasic,
         )
 
 
@@ -2304,3 +2402,77 @@ class MapleStoryUserUnionRaider(BaseModel):
 
             y: int
             """ 블록 Y좌표"""
+
+
+class GetGuildIdRequestParam(TypedDict, total=False):
+    world_name: Required[str]
+    guild_name: Required[str]
+
+
+class MapleStoryGuildId(BaseModel):
+    oguild_id: str
+    """ 길드 식별자 """
+
+
+class GetGuildBasicRequestParam(TypedDict, total=False):
+    oguild_id: Required[str]
+    """ 길드 식별자 """
+
+
+class MapleStoryGuildBasic(BaseModel):
+    date: str
+    """ 조회 기준일 (KST, 일 단위 데이터로 시, 분은 일괄 0으로 표기) """
+
+    world_name: str
+    """ 월드 명 """
+
+    guild_name: str
+    """ 길드 명 """
+
+    guild_level: int
+    """ 길드 레벨 """
+
+    guild_fame: int
+    """ 길드 명성치 """
+
+    guild_point: int
+    """ 길드 포인트(GP) """
+
+    guild_master_name: str
+    """ 길드 마스터 캐릭터 명 """
+
+    guild_member_count: int
+    """ 길드원 수 """
+
+    guild_member: List[str]
+    """ 길드원 목록 """
+
+    guild_skill: List[GuildSkill]
+    """ 길드 스킬 목록"""
+
+    guild_noblesse_skill: List[GuildSkill]
+    """ 노블레스 스킬 목록
+    TODO: 반환되는 정보가 실제 API 명세와 일치하지 않음, 해당 값은 응답 값을 기준으로 작성
+    """
+
+    guild_mark: Optional[str]
+    """ 조합형 길드 마크 """
+
+    guild_mark_custom: Optional[str]
+    """ 커스텀 길드 마크 (base64 인코딩 형식) """
+
+    class GuildSkill(BaseModel):
+        skill_name: str
+        """ 스킬 명 """
+
+        skill_description: str
+        """ 스킬 설명 """
+
+        skill_level: int
+        """ 스킬 레벨 """
+
+        skill_effect: str
+        """ 스킬 레벨 별 효과 """
+
+        skill_icon: str
+        """ 스킬 아이콘 """
