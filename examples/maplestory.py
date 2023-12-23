@@ -25,6 +25,9 @@ if __name__ == "__main__":
     character_hexa_matrix_stat = client.maplestory.get_character_hexa_matrix_stat(ocid=ocid)
     character_dojang = client.maplestory.get_character_dojang(ocid=ocid)
 
+    user_union = client.maplestory.get_user_union(ocid=ocid)
+    user_union_raider = client.maplestory.get_user_union_raider(ocid=ocid)
+
     # Async
     async def async_main():
         client = NexonOpenAPIAsync()
@@ -49,6 +52,8 @@ if __name__ == "__main__":
         character_hexa_matrix = await client.maplestory.get_character_hexa_matrix(ocid=ocid)
         character_hexa_matrix_stat = await client.maplestory.get_character_hexa_matrix_stat(ocid=ocid)
         character_dojang = await client.maplestory.get_character_dojang(ocid=ocid)
-        print(character_dojang)
 
-    asyncio.run(async_main())
+        user_union = await client.maplestory.get_user_union(ocid=ocid)
+        user_union_raider = await client.maplestory.get_user_union_raider(ocid=ocid)
+
+    # asyncio.run(async_main())

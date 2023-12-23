@@ -548,6 +548,54 @@ class MapleStory(SyncAPIResource):
             cast_to=MapleStoryCharacterDojang,
         )
 
+    def get_user_union(
+        self,
+        *,
+        ocid: str,
+        date: Optional[str] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryUserUnion:
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return self._get(
+            path="maplestory/v1/user/union",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid, "date": date}, GetUserUnionRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryUserUnion,
+        )
+
+    def get_user_union_raider(
+        self,
+        *,
+        ocid: str,
+        date: Optional[str] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryUserUnionRaider:
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return self._get(
+            path="maplestory/v1/user/union-raider",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid, "date": date}, GetUserUnionRaiderRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryUserUnionRaider,
+        )
+
 
 class MapleStoryAsync(AsyncAPIResource):
     def __init__(self, client: NexonOpenAPIAsync) -> None:
@@ -1073,6 +1121,55 @@ class MapleStoryAsync(AsyncAPIResource):
             ),
             cast_to=MapleStoryCharacterDojang,
         )
+
+    async def get_user_union(
+        self,
+        *,
+        ocid: str,
+        date: Optional[str] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryUserUnion:
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return await self._get(
+            path="maplestory/v1/user/union",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid, "date": date}, GetUserUnionRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryUserUnion,
+        )
+
+    async def get_user_union_raider(
+        self,
+        *,
+        ocid: str,
+        date: Optional[str] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryUserUnionRaider:
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return await self._get(
+            path="maplestory/v1/user/union-raider",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid, "date": date}, GetUserUnionRaiderRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryUserUnionRaider,
+        )
+
 
 
 def validate_date(date: str) -> str:
@@ -2120,3 +2217,90 @@ class MapleStoryCharacterDojang(BaseModel):
 
     dojang_best_time: int
     """ 무릉도장 최고 층수 클리어에 걸린 시간 (초) """
+
+
+class GetUserUnionRequestParam(TypedDict, total=False):
+    ocid: Required[str]
+    date: Required[str]
+
+
+class MapleStoryUserUnion(BaseModel):
+    date: str
+    """ 조회 기준일 (KST, 일 단위 데이터로 시, 분은 일괄 0으로 표기) """
+
+    union_level: int
+    """ 유니온 레벨 """
+
+    union_grade: str
+    """ 유니온 레벨 """
+
+
+class GetUserUnionRaiderRequestParam(TypedDict, total=False):
+    ocid: Required[str]
+    date: Required[str]
+
+
+class MapleStoryUserUnionRaider(BaseModel):
+    date: str
+    """ 조회 기준일 (KST, 일 단위 데이터로 시, 분은 일괄 0으로 표기) """
+
+    union_raider_stat: List[str]
+    """ 유니온 공격대원 효과 """
+
+    union_occupied_stat: List[str]
+    """ 유니온 공격대 점령 효과 """
+
+    union_inner_stat: List[UnionInnerStat]
+    """ 유니온 공격대 배치 """
+
+    union_block: List[UnionBlock]
+    """ 유니온 블록 정보 """
+
+    class UnionInnerStat(BaseModel):
+        stat_field_id: str
+        """ 공격대 배치 위치 (11시 방향부터 시계 방향 순서대로 0~7) """
+
+        stat_field_effect: str
+        """ 해당 지역 점령 효과 """
+
+    class UnionBlock(BaseModel):
+        block_type: str
+        """ 블록 모양 (전사, 마법사, 궁수, 도적, 해적, 메이플m, 하이브리드) """
+
+        block_class: str
+        """ 블록 해당 캐릭터 직업 """
+
+        block_level: str
+        """ 블록 해당 캐릭터 레벨 """
+
+        block_control_point: BlockControlPoint
+        """ 블록 기준점 좌표 """
+
+        block_position: List[BlockPosition]
+        """ 블록이 차지하고 있는 영역 좌표들 (null: 미 배치 시) """
+
+        class BlockControlPoint(BaseModel):
+            """
+            블록 기준점 좌표
+
+            중앙 4칸 중 오른쪽 아래 칸이 x : 0, y : 0 포지션
+            좌측으로 1칸씩 이동하면 x가 1씩 감소
+            우측으로 1칸씩 이동하면 x가 1씩 증가
+            아래로 1칸씩 이동하면 y가 1씩 감소
+            위로 1칸씩 이동하면 y가 1씩 증가
+            """
+
+            x: int
+            """ 블록 기준점 X좌표"""
+
+            y: int
+            """ 블록 기준점 Y좌표"""
+
+        class BlockPosition(BaseModel):
+            """블록이 차지하고 있는 영역 좌표들 (null: 미 배치 시)"""
+
+            x: int
+            """ 블록 X좌표"""
+
+            y: int
+            """ 블록 Y좌표"""
