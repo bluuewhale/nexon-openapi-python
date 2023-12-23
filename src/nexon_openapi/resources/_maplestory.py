@@ -1,8 +1,8 @@
 from __future__ import annotations
 from datetime import datetime, timezone, timedelta
 
-from typing import TYPE_CHECKING, List, Optional, Union
-from typing_extensions import Required, TypedDict
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
+from typing_extensions import Required, TypedDict, Annotated
 
 
 import httpx
@@ -645,6 +645,526 @@ class MapleStory(SyncAPIResource):
             cast_to=MapleStoryGuildBasic,
         )
 
+    def get_overall_ranking(
+        self,
+        *,
+        date: Optional[str] = None,
+        world_name: Optional[str] = None,
+        world_type: Optional[str] = None,
+        class_: Optional[str] = None,
+        ocid: Optional[str] = None,
+        page: Optional[int] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryOverallRanking:
+        """
+        world_type: str
+            월드 타입 (0:일반, 1:리부트) (기본 값은 0이며, world_name 입력 시 미 반영)
+
+        world_name: 월드 명
+            - 스카니아
+            - 베라
+            - 루나
+            - 제니스
+            - 크로아
+            - 유니온
+            - 엘리시움
+            - 이노시스
+            - 레드
+            - 오로라
+            - 아케인
+            - 노바
+            - 리부트
+            - 리부트2
+            - 버닝
+            - 버닝2
+            - 버닝3
+
+        class_: str
+            - 초보자-전체 전직
+            - 전사-전체 전직
+            - 전사-검사
+            - 전사-파이터
+            - 전사-페이지
+            - 전사-스피어맨
+            - 전사-크루세이더
+            - 전사-나이트
+            - 전사-버서커
+            - 전사-히어로
+            - 전사-팔라딘
+            - 전사-다크나이트
+            - 마법사-전체 전직
+            - 마법사-매지션
+            - 마법사-위자드(불,독)
+            - 마법사-위자드(썬,콜)
+            - 마법사-클레릭
+            - 마법사-메이지(불,독)
+            - 마법사-메이지(썬,콜)
+            - 마법사-프리스트
+            - 마법사-아크메이지(불,독)
+            - 마법사-아크메이지(썬,콜)
+            - 마법사-비숍
+            - 궁수-전체 전직
+            - 궁수-아처
+            - 궁수-헌터
+            - 궁수-사수
+            - 궁수-레인저
+            - 궁수-저격수
+            - 궁수-보우마스터
+            - 궁수-신궁
+            - 궁수-아처(패스파인더)
+            - 궁수-에인션트아처
+            - 궁수-체이서
+            - 궁수-패스파인더
+            - 도적-전체 전직
+            - 도적-로그
+            - 도적-어쌔신
+            - 도적-시프
+            - 도적-허밋
+            - 도적-시프마스터
+            - 도적-나이트로드
+            - 도적-섀도어
+            - 도적-세미듀어러
+            - 도적-듀어러
+            - 도적-듀얼마스터
+            - 도적-슬래셔
+            - 도적-듀얼블레이더
+            - 해적-전체 전직
+            - 해적-해적
+            - 해적-인파이터
+            - 해적-건슬링거
+            - 해적-캐논슈터
+            - 해적-버커니어
+            - 해적-발키리
+            - 해적-캐논블래스터
+            - 해적-바이퍼
+            - 해적-캡틴
+            - 해적-캐논마스터
+            - 기사단-전체 전직
+            - 기사단-노블레스
+            - 기사단-소울마스터
+            - 기사단-플레임위자드
+            - 기사단-윈드브레이커
+            - 기사단-나이트워커
+            - 기사단-스트라이커
+            - 기사단-미하일
+            - 아란-전체 전직
+            - 에반-전체 전직
+            - 레지스탕스-전체 전직
+            - 레지스탕스-시티즌
+            - 레지스탕스-배틀메이지
+            - 레지스탕스-와일드헌터
+            - 레지스탕스-메카닉
+            - 레지스탕스-데몬슬레이어
+            - 레지스탕스-데몬어벤져
+            - 레지스탕스-제논
+            - 레지스탕스-블래스터
+            - 메르세데스-전체 전직
+            - 팬텀-전체 전직
+            - 루미너스-전체 전직
+            - 카이저-전체 전직
+            - 엔젤릭버스터-전체 전직
+            - 초월자-전체 전직
+            - 초월자-제로
+            - 은월-전체 전직
+            - 프렌즈 월드-전체 전직
+            - 프렌즈 월드-키네시스
+            - 카데나-전체 전직
+            - 일리움-전체 전직
+            - 아크-전체 전직
+            - 호영-전체 전직
+            - 아델-전체 전직
+            - 카인-전체 전직
+            - 라라-전체 전직
+            - 칼리-전체 전직
+        """
+
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return self._get(
+            path="maplestory/v1/ranking/overall",
+            options=make_request_options(
+                query=maybe_transform(
+                    {
+                        "date": date,
+                        "world_name": world_name,
+                        "world_type": world_type,
+                        "class": class_,
+                        "ocid": ocid,
+                        "page": page,
+                    },
+                    GetOverallRankingRequestParam,
+                ),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryOverallRanking,
+        )
+
+    def get_union_ranking(
+        self,
+        *,
+        date: Optional[str] = None,
+        world_name: Optional[str] = None,
+        ocid: Optional[str] = None,
+        page: Optional[int] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryUnionRanking:
+        """
+        world_name: 월드 명
+            - 스카니아
+            - 베라
+            - 루나
+            - 제니스
+            - 크로아
+            - 유니온
+            - 엘리시움
+            - 이노시스
+            - 레드
+            - 오로라
+            - 아케인
+            - 노바
+            - 리부트
+            - 리부트2
+            - 버닝
+            - 버닝2
+            - 버닝3
+        """
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return self._get(
+            path="maplestory/v1/ranking/union",
+            options=make_request_options(
+                query=maybe_transform(
+                    {
+                        "date": date,
+                        "world_name": world_name,
+                        "ocid": ocid,
+                        "page": page,
+                    },
+                    GetUnionRankingRequestParam,
+                ),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryUnionRanking,
+        )
+
+    def get_guild_ranking(
+        self,
+        *,
+        ranking_type: str,
+        date: Optional[str] = None,
+        world_name: Optional[str] = None,
+        guild_name: Optional[str] = None,
+        page: Optional[int] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryGuildRanking:
+        """
+        ranking_type: str
+            랭킹 타입 (0:주간 명성치, 1:플래그 레이스, 2:지하 수로)
+
+        world_name: 월드 명
+            - 스카니아
+            - 베라
+            - 루나
+            - 제니스
+            - 크로아
+            - 유니온
+            - 엘리시움
+            - 이노시스
+            - 레드
+            - 오로라
+            - 아케인
+            - 노바
+            - 리부트
+            - 리부트2
+            - 버닝
+            - 버닝2
+            - 버닝3
+
+        """
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return self._get(
+            path="maplestory/v1/ranking/guild",
+            options=make_request_options(
+                query=maybe_transform(
+                    {
+                        "ranking_type": ranking_type,
+                        "date": date,
+                        "world_name": world_name,
+                        "guild_name": guild_name,
+                        "page": page,
+                    },
+                    GetGuildRankingRequestParam,
+                ),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryGuildRanking,
+        )
+
+    def get_dojang_ranking(
+        self,
+        *,
+        difficulty: str,
+        date: Optional[str] = None,
+        world_name: Optional[str] = None,
+        class_: Optional[str] = None,
+        ocid: Optional[str] = None,
+        page: Optional[int] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryDojangRanking:
+        """
+        difficulty: str
+            구간 (0:일반, 1:통달)
+
+        world_name: 월드 명
+            - 스카니아
+            - 베라
+            - 루나
+            - 제니스
+            - 크로아
+            - 유니온
+            - 엘리시움
+            - 이노시스
+            - 레드
+            - 오로라
+            - 아케인
+            - 노바
+            - 리부트
+            - 리부트2
+            - 버닝
+            - 버닝2
+            - 버닝3
+
+        class_: str
+            - 초보자-전체 전직
+            - 전사-전체 전직
+            - 전사-검사
+            - 전사-파이터
+            - 전사-페이지
+            - 전사-스피어맨
+            - 전사-크루세이더
+            - 전사-나이트
+            - 전사-버서커
+            - 전사-히어로
+            - 전사-팔라딘
+            - 전사-다크나이트
+            - 마법사-전체 전직
+            - 마법사-매지션
+            - 마법사-위자드(불,독)
+            - 마법사-위자드(썬,콜)
+            - 마법사-클레릭
+            - 마법사-메이지(불,독)
+            - 마법사-메이지(썬,콜)
+            - 마법사-프리스트
+            - 마법사-아크메이지(불,독)
+            - 마법사-아크메이지(썬,콜)
+            - 마법사-비숍
+            - 궁수-전체 전직
+            - 궁수-아처
+            - 궁수-헌터
+            - 궁수-사수
+            - 궁수-레인저
+            - 궁수-저격수
+            - 궁수-보우마스터
+            - 궁수-신궁
+            - 궁수-아처(패스파인더)
+            - 궁수-에인션트아처
+            - 궁수-체이서
+            - 궁수-패스파인더
+            - 도적-전체 전직
+            - 도적-로그
+            - 도적-어쌔신
+            - 도적-시프
+            - 도적-허밋
+            - 도적-시프마스터
+            - 도적-나이트로드
+            - 도적-섀도어
+            - 도적-세미듀어러
+            - 도적-듀어러
+            - 도적-듀얼마스터
+            - 도적-슬래셔
+            - 도적-듀얼블레이더
+            - 해적-전체 전직
+            - 해적-해적
+            - 해적-인파이터
+            - 해적-건슬링거
+            - 해적-캐논슈터
+            - 해적-버커니어
+            - 해적-발키리
+            - 해적-캐논블래스터
+            - 해적-바이퍼
+            - 해적-캡틴
+            - 해적-캐논마스터
+            - 기사단-전체 전직
+            - 기사단-노블레스
+            - 기사단-소울마스터
+            - 기사단-플레임위자드
+            - 기사단-윈드브레이커
+            - 기사단-나이트워커
+            - 기사단-스트라이커
+            - 기사단-미하일
+            - 아란-전체 전직
+            - 에반-전체 전직
+            - 레지스탕스-전체 전직
+            - 레지스탕스-시티즌
+            - 레지스탕스-배틀메이지
+            - 레지스탕스-와일드헌터
+            - 레지스탕스-메카닉
+            - 레지스탕스-데몬슬레이어
+            - 레지스탕스-데몬어벤져
+            - 레지스탕스-제논
+            - 레지스탕스-블래스터
+            - 메르세데스-전체 전직
+            - 팬텀-전체 전직
+            - 루미너스-전체 전직
+            - 카이저-전체 전직
+            - 엔젤릭버스터-전체 전직
+            - 초월자-전체 전직
+            - 초월자-제로
+            - 은월-전체 전직
+            - 프렌즈 월드-전체 전직
+            - 프렌즈 월드-키네시스
+            - 카데나-전체 전직
+            - 일리움-전체 전직
+            - 아크-전체 전직
+            - 호영-전체 전직
+            - 아델-전체 전직
+            - 카인-전체 전직
+            - 라라-전체 전직
+            - 칼리-전체 전직
+
+        """
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return self._get(
+            path="maplestory/v1/ranking/dojang",
+            options=make_request_options(
+                query=maybe_transform(
+                    {
+                        "difficulty": difficulty,
+                        "date": date,
+                        "world_name": world_name,
+                        "class": class_,
+                        "ocid": ocid,
+                        "page": page,
+                    },
+                    GetDojangRankingRequestParam,
+                ),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryDojangRanking,
+        )
+
+    def get_the_seed_ranking(
+        self,
+        *,
+        date: Optional[str] = None,
+        world_name: Optional[str] = None,
+        ocid: Optional[str] = None,
+        page: Optional[int] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryTheSeedRanking:
+        """
+        world_name: 월드 명
+            - 스카니아
+            - 베라
+            - 루나
+            - 제니스
+            - 크로아
+            - 유니온
+            - 엘리시움
+            - 이노시스
+            - 레드
+            - 오로라
+            - 아케인
+            - 노바
+            - 리부트
+            - 리부트2
+            - 버닝
+            - 버닝2
+            - 버닝3
+        """
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return self._get(
+            path="maplestory/v1/ranking/theseed",
+            options=make_request_options(
+                query=maybe_transform(
+                    {
+                        "date": date,
+                        "world_name": world_name,
+                        "ocid": ocid,
+                        "page": page,
+                    },
+                    GetTheSeedRankingRequestParam,
+                ),
+                extra_query=extra_query,
+                extra_headers=extra_headers,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryTheSeedRanking,
+        )
+
+    def get_achievement_ranking(
+        self,
+        *,
+        date: Optional[str] = None,
+        ocid: Optional[str] = None,
+        page: Optional[int] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryAchievementRanking:
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return self._get(
+            path="maplestory/v1/ranking/achievement",
+            options=make_request_options(
+                query=maybe_transform(
+                    {
+                        "date": date,
+                        "ocid": ocid,
+                        "page": page,
+                    },
+                    GetAchievementRankingRequestParam,
+                ),
+                extra_query=extra_query,
+                extra_headers=extra_headers,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryAchievementRanking,
+        )
+
 
 class MapleStoryAsync(AsyncAPIResource):
     def __init__(self, client: NexonOpenAPIAsync) -> None:
@@ -1232,17 +1752,19 @@ class MapleStoryAsync(AsyncAPIResource):
     ) -> str:
         date = validate_date(date) if date is not None else get_latest_date_available()
 
-        return (await self._get(
-            path="maplestory/v1/guild/id",
-            options=make_request_options(
-                query=maybe_transform({"world_name": world_name, "guild_name": guild_name}, GetGuildIdRequestParam),
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-            ),
-            cast_to=MapleStoryGuildId,
-        )).oguild_id
+        return (
+            await self._get(
+                path="maplestory/v1/guild/id",
+                options=make_request_options(
+                    query=maybe_transform({"world_name": world_name, "guild_name": guild_name}, GetGuildIdRequestParam),
+                    extra_headers=extra_headers,
+                    extra_query=extra_query,
+                    extra_body=extra_body,
+                    timeout=timeout,
+                ),
+                cast_to=MapleStoryGuildId,
+            )
+        ).oguild_id
 
     async def get_guild_basic(
         self,
@@ -1268,6 +1790,525 @@ class MapleStoryAsync(AsyncAPIResource):
             cast_to=MapleStoryGuildBasic,
         )
 
+    async def get_overall_ranking(
+        self,
+        *,
+        date: Optional[str] = None,
+        world_name: Optional[str] = None,
+        world_type: Optional[str] = None,
+        class_: Optional[str] = None,
+        ocid: Optional[str] = None,
+        page: Optional[int] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryOverallRanking:
+        """
+        world_type: str
+            월드 타입 (0:일반, 1:리부트) (기본 값은 0이며, world_name 입력 시 미 반영)
+
+        world_name: 월드 명
+            - 스카니아
+            - 베라
+            - 루나
+            - 제니스
+            - 크로아
+            - 유니온
+            - 엘리시움
+            - 이노시스
+            - 레드
+            - 오로라
+            - 아케인
+            - 노바
+            - 리부트
+            - 리부트2
+            - 버닝
+            - 버닝2
+            - 버닝3
+
+        class_: str
+            - 초보자-전체 전직
+            - 전사-전체 전직
+            - 전사-검사
+            - 전사-파이터
+            - 전사-페이지
+            - 전사-스피어맨
+            - 전사-크루세이더
+            - 전사-나이트
+            - 전사-버서커
+            - 전사-히어로
+            - 전사-팔라딘
+            - 전사-다크나이트
+            - 마법사-전체 전직
+            - 마법사-매지션
+            - 마법사-위자드(불,독)
+            - 마법사-위자드(썬,콜)
+            - 마법사-클레릭
+            - 마법사-메이지(불,독)
+            - 마법사-메이지(썬,콜)
+            - 마법사-프리스트
+            - 마법사-아크메이지(불,독)
+            - 마법사-아크메이지(썬,콜)
+            - 마법사-비숍
+            - 궁수-전체 전직
+            - 궁수-아처
+            - 궁수-헌터
+            - 궁수-사수
+            - 궁수-레인저
+            - 궁수-저격수
+            - 궁수-보우마스터
+            - 궁수-신궁
+            - 궁수-아처(패스파인더)
+            - 궁수-에인션트아처
+            - 궁수-체이서
+            - 궁수-패스파인더
+            - 도적-전체 전직
+            - 도적-로그
+            - 도적-어쌔신
+            - 도적-시프
+            - 도적-허밋
+            - 도적-시프마스터
+            - 도적-나이트로드
+            - 도적-섀도어
+            - 도적-세미듀어러
+            - 도적-듀어러
+            - 도적-듀얼마스터
+            - 도적-슬래셔
+            - 도적-듀얼블레이더
+            - 해적-전체 전직
+            - 해적-해적
+            - 해적-인파이터
+            - 해적-건슬링거
+            - 해적-캐논슈터
+            - 해적-버커니어
+            - 해적-발키리
+            - 해적-캐논블래스터
+            - 해적-바이퍼
+            - 해적-캡틴
+            - 해적-캐논마스터
+            - 기사단-전체 전직
+            - 기사단-노블레스
+            - 기사단-소울마스터
+            - 기사단-플레임위자드
+            - 기사단-윈드브레이커
+            - 기사단-나이트워커
+            - 기사단-스트라이커
+            - 기사단-미하일
+            - 아란-전체 전직
+            - 에반-전체 전직
+            - 레지스탕스-전체 전직
+            - 레지스탕스-시티즌
+            - 레지스탕스-배틀메이지
+            - 레지스탕스-와일드헌터
+            - 레지스탕스-메카닉
+            - 레지스탕스-데몬슬레이어
+            - 레지스탕스-데몬어벤져
+            - 레지스탕스-제논
+            - 레지스탕스-블래스터
+            - 메르세데스-전체 전직
+            - 팬텀-전체 전직
+            - 루미너스-전체 전직
+            - 카이저-전체 전직
+            - 엔젤릭버스터-전체 전직
+            - 초월자-전체 전직
+            - 초월자-제로
+            - 은월-전체 전직
+            - 프렌즈 월드-전체 전직
+            - 프렌즈 월드-키네시스
+            - 카데나-전체 전직
+            - 일리움-전체 전직
+            - 아크-전체 전직
+            - 호영-전체 전직
+            - 아델-전체 전직
+            - 카인-전체 전직
+            - 라라-전체 전직
+            - 칼리-전체 전직
+        """
+
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return await self._get(
+            path="maplestory/v1/ranking/overall",
+            options=make_request_options(
+                query=maybe_transform(
+                    {
+                        "date": date,
+                        "world_name": world_name,
+                        "world_type": world_type,
+                        "class": class_,
+                        "ocid": ocid,
+                        "page": page,
+                    },
+                    GetOverallRankingRequestParam,
+                ),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryOverallRanking,
+        )
+
+    async def get_union_ranking(
+        self,
+        *,
+        date: Optional[str] = None,
+        world_name: Optional[str] = None,
+        ocid: Optional[str] = None,
+        page: Optional[int] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryUnionRanking:
+        """
+        world_name: 월드 명
+            - 스카니아
+            - 베라
+            - 루나
+            - 제니스
+            - 크로아
+            - 유니온
+            - 엘리시움
+            - 이노시스
+            - 레드
+            - 오로라
+            - 아케인
+            - 노바
+            - 리부트
+            - 리부트2
+            - 버닝
+            - 버닝2
+            - 버닝3
+        """
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return await self._get(
+            path="maplestory/v1/ranking/union",
+            options=make_request_options(
+                query=maybe_transform(
+                    {
+                        "date": date,
+                        "world_name": world_name,
+                        "ocid": ocid,
+                        "page": page,
+                    },
+                    GetUnionRankingRequestParam,
+                ),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryUnionRanking,
+        )
+
+    async def get_guild_ranking(
+        self,
+        *,
+        ranking_type: str,
+        date: Optional[str] = None,
+        world_name: Optional[str] = None,
+        guild_name: Optional[str] = None,
+        page: Optional[int] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryGuildRanking:
+        """
+        ranking_type: str
+            랭킹 타입 (0:주간 명성치, 1:플래그 레이스, 2:지하 수로)
+
+        world_name: 월드 명
+            - 스카니아
+            - 베라
+            - 루나
+            - 제니스
+            - 크로아
+            - 유니온
+            - 엘리시움
+            - 이노시스
+            - 레드
+            - 오로라
+            - 아케인
+            - 노바
+            - 리부트
+            - 리부트2
+            - 버닝
+            - 버닝2
+            - 버닝3
+
+        """
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return await self._get(
+            path="maplestory/v1/ranking/guild",
+            options=make_request_options(
+                query=maybe_transform(
+                    {
+                        "ranking_type": ranking_type,
+                        "date": date,
+                        "world_name": world_name,
+                        "guild_name": guild_name,
+                        "page": page,
+                    },
+                    GetGuildRankingRequestParam,
+                ),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryGuildRanking,
+        )
+
+    async def get_dojang_ranking(
+        self,
+        *,
+        difficulty: str,
+        date: Optional[str] = None,
+        world_name: Optional[str] = None,
+        class_: Optional[str] = None,
+        ocid: Optional[str] = None,
+        page: Optional[int] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryDojangRanking:
+        """
+        difficulty: str
+            구간 (0:일반, 1:통달)
+
+        world_name: 월드 명
+            - 스카니아
+            - 베라
+            - 루나
+            - 제니스
+            - 크로아
+            - 유니온
+            - 엘리시움
+            - 이노시스
+            - 레드
+            - 오로라
+            - 아케인
+            - 노바
+            - 리부트
+            - 리부트2
+            - 버닝
+            - 버닝2
+            - 버닝3
+
+        class_: str
+            - 초보자-전체 전직
+            - 전사-전체 전직
+            - 전사-검사
+            - 전사-파이터
+            - 전사-페이지
+            - 전사-스피어맨
+            - 전사-크루세이더
+            - 전사-나이트
+            - 전사-버서커
+            - 전사-히어로
+            - 전사-팔라딘
+            - 전사-다크나이트
+            - 마법사-전체 전직
+            - 마법사-매지션
+            - 마법사-위자드(불,독)
+            - 마법사-위자드(썬,콜)
+            - 마법사-클레릭
+            - 마법사-메이지(불,독)
+            - 마법사-메이지(썬,콜)
+            - 마법사-프리스트
+            - 마법사-아크메이지(불,독)
+            - 마법사-아크메이지(썬,콜)
+            - 마법사-비숍
+            - 궁수-전체 전직
+            - 궁수-아처
+            - 궁수-헌터
+            - 궁수-사수
+            - 궁수-레인저
+            - 궁수-저격수
+            - 궁수-보우마스터
+            - 궁수-신궁
+            - 궁수-아처(패스파인더)
+            - 궁수-에인션트아처
+            - 궁수-체이서
+            - 궁수-패스파인더
+            - 도적-전체 전직
+            - 도적-로그
+            - 도적-어쌔신
+            - 도적-시프
+            - 도적-허밋
+            - 도적-시프마스터
+            - 도적-나이트로드
+            - 도적-섀도어
+            - 도적-세미듀어러
+            - 도적-듀어러
+            - 도적-듀얼마스터
+            - 도적-슬래셔
+            - 도적-듀얼블레이더
+            - 해적-전체 전직
+            - 해적-해적
+            - 해적-인파이터
+            - 해적-건슬링거
+            - 해적-캐논슈터
+            - 해적-버커니어
+            - 해적-발키리
+            - 해적-캐논블래스터
+            - 해적-바이퍼
+            - 해적-캡틴
+            - 해적-캐논마스터
+            - 기사단-전체 전직
+            - 기사단-노블레스
+            - 기사단-소울마스터
+            - 기사단-플레임위자드
+            - 기사단-윈드브레이커
+            - 기사단-나이트워커
+            - 기사단-스트라이커
+            - 기사단-미하일
+            - 아란-전체 전직
+            - 에반-전체 전직
+            - 레지스탕스-전체 전직
+            - 레지스탕스-시티즌
+            - 레지스탕스-배틀메이지
+            - 레지스탕스-와일드헌터
+            - 레지스탕스-메카닉
+            - 레지스탕스-데몬슬레이어
+            - 레지스탕스-데몬어벤져
+            - 레지스탕스-제논
+            - 레지스탕스-블래스터
+            - 메르세데스-전체 전직
+            - 팬텀-전체 전직
+            - 루미너스-전체 전직
+            - 카이저-전체 전직
+            - 엔젤릭버스터-전체 전직
+            - 초월자-전체 전직
+            - 초월자-제로
+            - 은월-전체 전직
+            - 프렌즈 월드-전체 전직
+            - 프렌즈 월드-키네시스
+            - 카데나-전체 전직
+            - 일리움-전체 전직
+            - 아크-전체 전직
+            - 호영-전체 전직
+            - 아델-전체 전직
+            - 카인-전체 전직
+            - 라라-전체 전직
+            - 칼리-전체 전직
+
+        """
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return await self._get(
+            path="maplestory/v1/ranking/dojang",
+            options=make_request_options(
+                query=maybe_transform(
+                    {
+                        "difficulty": difficulty,
+                        "date": date,
+                        "world_name": world_name,
+                        "class": class_,
+                        "ocid": ocid,
+                        "page": page,
+                    },
+                    GetDojangRankingRequestParam,
+                ),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryDojangRanking,
+        )
+
+    async def get_the_seed_ranking(
+        self,
+        *,
+        date: Optional[str] = None,
+        world_name: Optional[str] = None,
+        ocid: Optional[str] = None,
+        page: Optional[int] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryTheSeedRanking:
+        """
+        world_name: 월드 명
+            - 스카니아
+            - 베라
+            - 루나
+            - 제니스
+            - 크로아
+            - 유니온
+            - 엘리시움
+            - 이노시스
+            - 레드
+            - 오로라
+            - 아케인
+            - 노바
+            - 리부트
+            - 리부트2
+            - 버닝
+            - 버닝2
+            - 버닝3
+        """
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return await self._get(
+            path="maplestory/v1/ranking/theseed",
+            options=make_request_options(
+                query=maybe_transform(
+                    {
+                        "date": date,
+                        "world_name": world_name,
+                        "ocid": ocid,
+                        "page": page,
+                    },
+                    GetTheSeedRankingRequestParam,
+                ),
+                extra_query=extra_query,
+                extra_headers=extra_headers,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryTheSeedRanking,
+        )
+
+    async def get_achievement_ranking(
+        self,
+        *,
+        date: Optional[str] = None,
+        ocid: Optional[str] = None,
+        page: Optional[int] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryAchievementRanking:
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return await self._get(
+            path="maplestory/v1/ranking/achievement",
+            options=make_request_options(
+                query=maybe_transform(
+                    {
+                        "date": date,
+                        "ocid": ocid,
+                        "page": page,
+                    },
+                    GetAchievementRankingRequestParam,
+                ),
+                extra_query=extra_query,
+                extra_headers=extra_headers,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryAchievementRanking,
+        )
 
 
 def validate_date(date: str) -> str:
@@ -2476,3 +3517,498 @@ class MapleStoryGuildBasic(BaseModel):
 
         skill_icon: str
         """ 스킬 아이콘 """
+
+
+class GetOverallRankingRequestParam(TypedDict, total=False):
+    date: Required[str]
+    """ 조회 기준일 (KST) """
+
+    world_name: str
+    """ 월드 명 
+
+    Available values : 스카니아, 베라, 루나, 제니스, 크로아, 유니온, 엘리시움, 이노시스, 레드, 오로라, 아케인, 노바, 리부트, 리부트2, 버닝, 버닝2, 버닝3
+    """
+
+    world_type: str
+    """ 월드 타입 (0: 일반, 1: 리부트) (기본 값은 0이며, world_name 입력 시 미 반영) """
+
+    class_: Annotated[str, "class"]
+    """ 직업 및 전직 
+
+    Available values: 
+        - 초보자-전체 전직 
+        - 전사-전체 전직
+        - 전사-검사
+        - 전사-파이터
+        - 전사-페이지
+        - 전사-스피어맨
+        - 전사-크루세이더
+        - 전사-나이트
+        - 전사-버서커
+        - 전사-히어로
+        - 전사-팔라딘
+        - 전사-다크나이트
+        - 마법사-전체 전직
+        - 마법사-매지션
+        - 마법사-위자드(불,독)
+        - 마법사-위자드(썬,콜)
+        - 마법사-클레릭
+        - 마법사-메이지(불,독)
+        - 마법사-메이지(썬,콜)
+        - 마법사-프리스트
+        - 마법사-아크메이지(불,독)
+        - 마법사-아크메이지(썬,콜)
+        - 마법사-비숍
+        - 궁수-전체 전직
+        - 궁수-아처
+        - 궁수-헌터
+        - 궁수-사수
+        - 궁수-레인저
+        - 궁수-저격수
+        - 궁수-보우마스터
+        - 궁수-신궁
+        - 궁수-아처(패스파인더)
+        - 궁수-에인션트아처
+        - 궁수-체이서
+        - 궁수-패스파인더
+        - 도적-전체 전직
+        - 도적-로그
+        - 도적-어쌔신
+        - 도적-시프
+        - 도적-허밋
+        - 도적-시프마스터
+        - 도적-나이트로드
+        - 도적-섀도어
+        - 도적-세미듀어러
+        - 도적-듀어러
+        - 도적-듀얼마스터
+        - 도적-슬래셔
+        - 도적-듀얼블레이더
+        - 해적-전체 전직
+        - 해적-해적
+        - 해적-인파이터
+        - 해적-건슬링거
+        - 해적-캐논슈터
+        - 해적-버커니어
+        - 해적-발키리
+        - 해적-캐논블래스터
+        - 해적-바이퍼
+        - 해적-캡틴
+        - 해적-캐논마스터
+        - 기사단-전체 전직
+        - 기사단-노블레스
+        - 기사단-소울마스터
+        - 기사단-플레임위자드
+        - 기사단-윈드브레이커
+        - 기사단-나이트워커
+        - 기사단-스트라이커
+        - 기사단-미하일
+        - 아란-전체 전직
+        - 에반-전체 전직
+        - 레지스탕스-전체 전직
+        - 레지스탕스-시티즌
+        - 레지스탕스-배틀메이지
+        - 레지스탕스-와일드헌터
+        - 레지스탕스-메카닉
+        - 레지스탕스-데몬슬레이어
+        - 레지스탕스-데몬어벤져
+        - 레지스탕스-제논
+        - 레지스탕스-블래스터
+        - 메르세데스-전체 전직
+        - 팬텀-전체 전직
+        - 루미너스-전체 전직
+        - 카이저-전체 전직
+        - 엔젤릭버스터-전체 전직
+        - 초월자-전체 전직
+        - 초월자-제로
+        - 은월-전체 전직
+        - 프렌즈 월드-전체 전직
+        - 프렌즈 월드-키네시스
+        - 카데나-전체 전직
+        - 일리움-전체 전직
+        - 아크-전체 전직
+        - 호영-전체 전직
+        - 아델-전체 전직
+        - 카인-전체 전직
+        - 라라-전체 전직
+        - 칼리-전체 전직
+    """
+
+    ocid: str
+    """ 캐릭터 식별자 """
+
+    page: int
+    """ 페이지 번호 """
+
+
+class MapleStoryOverallRanking(BaseModel):
+    ranking: List[Ranking]
+
+    class Ranking(BaseModel):
+        date: str
+        """ 조회 기준일 (KST, 일 단위 데이터로 시, 분은 일괄 0으로 표기) """
+
+        ranking: int
+        """ 종합 랭킹 순위 """
+
+        character_name: str
+        """ 캐릭터 명 """
+
+        world_name: str
+        """ 월드 명 """
+
+        class_name: str
+        """ 직업 명 """
+
+        sub_class_name: str
+        """ 전직 직업 명 """
+
+        character_level: int
+        """ 캐릭터 레벨 """
+
+        character_exp: int
+        """ 캐릭터 경험치 """
+
+        character_popularity: int
+        """ 캐릭터 인기도 """
+
+        character_guildname: str
+        """ 길드 명 """
+
+
+class GetUnionRankingRequestParam(TypedDict, total=False):
+    date: Required[str]
+    """ 조회 기준일 (KST) """
+
+    world_name: str
+    """ 월드 명 
+
+    Available values : 스카니아, 베라, 루나, 제니스, 크로아, 유니온, 엘리시움, 이노시스, 레드, 오로라, 아케인, 노바, 리부트, 리부트2, 버닝, 버닝2, 버닝3
+    """
+
+    ocid: str
+    """ 캐릭터 식별자 """
+
+    page: int
+    """ 페이지 번호 """
+
+
+class MapleStoryUnionRanking(BaseModel):
+    ranking: List[Ranking]
+
+    class Ranking(BaseModel):
+        date: str
+        """ 조회 기준일 (KST, 일 단위 데이터로 시, 분은 일괄 0으로 표기) """
+
+        ranking: int
+        """ 종합 랭킹 순위 """
+
+        character_name: str
+        """ 캐릭터 명 """
+
+        world_name: str
+        """ 월드 명 """
+
+        class_name: str
+        """ 직업 명 """
+
+        sub_class_name: str
+        """ 전직 직업 명 """
+
+        union_level: int
+        """ 유니온 레벨 """
+
+        union_power: int
+        """ 유니온 파워 """
+
+
+class GetGuildRankingRequestParam(TypedDict, total=False):
+    date: Required[str]
+    """ 조회 기준일 (KST) """
+
+    world_name: str
+    """ 월드 명 
+
+    Available values : 스카니아, 베라, 루나, 제니스, 크로아, 유니온, 엘리시움, 이노시스, 레드, 오로라, 아케인, 노바, 리부트, 리부트2, 버닝, 버닝2, 버닝3
+    """
+
+    ranking_type: Required[str]
+    """ 랭킹 타입 (0:주간 명성치, 1:플래그 레이스, 2:지하 수로) """
+
+    guild_name: str
+    """ 길드 명 """
+
+    page: int
+    """ 페이지 번호 """
+
+
+class MapleStoryGuildRanking(BaseModel):
+    ranking: List[Ranking]
+
+    class Ranking(BaseModel):
+        date: str
+        """ 조회 기준일 (KST, 일 단위 데이터로 시, 분은 일괄 0으로 표기) """
+
+        ranking: int
+        """ 종합 랭킹 순위 """
+
+        guild_name: str
+        """ 길드 명 """
+
+        world_name: str
+        """ 월드 명 """
+
+        guild_level: int
+        """ 길드 레벨 """
+
+        guild_master_name: str
+        """ 길드 마스터 캐릭터 명 """
+
+        guild_mark: str
+        """ 길드 마크 """
+
+        guild_point: int
+        """ 길드 포인트 """
+
+
+class GetDojangRankingRequestParam(TypedDict, total=False):
+    date: Required[str]
+    """ 조회 기준일 (KST) """
+
+    world_name: str
+    """ 월드 명 
+
+    Available values : 스카니아, 베라, 루나, 제니스, 크로아, 유니온, 엘리시움, 이노시스, 레드, 오로라, 아케인, 노바, 리부트, 리부트2, 버닝, 버닝2, 버닝3
+    """
+
+    difficulty: Required[str]
+    """ 구간 (0:일반, 1:통달) """
+
+    class_: Annotated[str, "class"]
+    """ 직업 및 전직 
+
+    Available values: 
+        - 초보자-전체 전직 
+        - 전사-전체 전직
+        - 전사-검사
+        - 전사-파이터
+        - 전사-페이지
+        - 전사-스피어맨
+        - 전사-크루세이더
+        - 전사-나이트
+        - 전사-버서커
+        - 전사-히어로
+        - 전사-팔라딘
+        - 전사-다크나이트
+        - 마법사-전체 전직
+        - 마법사-매지션
+        - 마법사-위자드(불,독)
+        - 마법사-위자드(썬,콜)
+        - 마법사-클레릭
+        - 마법사-메이지(불,독)
+        - 마법사-메이지(썬,콜)
+        - 마법사-프리스트
+        - 마법사-아크메이지(불,독)
+        - 마법사-아크메이지(썬,콜)
+        - 마법사-비숍
+        - 궁수-전체 전직
+        - 궁수-아처
+        - 궁수-헌터
+        - 궁수-사수
+        - 궁수-레인저
+        - 궁수-저격수
+        - 궁수-보우마스터
+        - 궁수-신궁
+        - 궁수-아처(패스파인더)
+        - 궁수-에인션트아처
+        - 궁수-체이서
+        - 궁수-패스파인더
+        - 도적-전체 전직
+        - 도적-로그
+        - 도적-어쌔신
+        - 도적-시프
+        - 도적-허밋
+        - 도적-시프마스터
+        - 도적-나이트로드
+        - 도적-섀도어
+        - 도적-세미듀어러
+        - 도적-듀어러
+        - 도적-듀얼마스터
+        - 도적-슬래셔
+        - 도적-듀얼블레이더
+        - 해적-전체 전직
+        - 해적-해적
+        - 해적-인파이터
+        - 해적-건슬링거
+        - 해적-캐논슈터
+        - 해적-버커니어
+        - 해적-발키리
+        - 해적-캐논블래스터
+        - 해적-바이퍼
+        - 해적-캡틴
+        - 해적-캐논마스터
+        - 기사단-전체 전직
+        - 기사단-노블레스
+        - 기사단-소울마스터
+        - 기사단-플레임위자드
+        - 기사단-윈드브레이커
+        - 기사단-나이트워커
+        - 기사단-스트라이커
+        - 기사단-미하일
+        - 아란-전체 전직
+        - 에반-전체 전직
+        - 레지스탕스-전체 전직
+        - 레지스탕스-시티즌
+        - 레지스탕스-배틀메이지
+        - 레지스탕스-와일드헌터
+        - 레지스탕스-메카닉
+        - 레지스탕스-데몬슬레이어
+        - 레지스탕스-데몬어벤져
+        - 레지스탕스-제논
+        - 레지스탕스-블래스터
+        - 메르세데스-전체 전직
+        - 팬텀-전체 전직
+        - 루미너스-전체 전직
+        - 카이저-전체 전직
+        - 엔젤릭버스터-전체 전직
+        - 초월자-전체 전직
+        - 초월자-제로
+        - 은월-전체 전직
+        - 프렌즈 월드-전체 전직
+        - 프렌즈 월드-키네시스
+        - 카데나-전체 전직
+        - 일리움-전체 전직
+        - 아크-전체 전직
+        - 호영-전체 전직
+        - 아델-전체 전직
+        - 카인-전체 전직
+        - 라라-전체 전직
+        - 칼리-전체 전직
+    """
+
+    ocid: str
+    """ 캐릭터 식별자 """
+
+    page: int
+    """ 페이지 번호 """
+
+
+class MapleStoryDojangRanking(BaseModel):
+    ranking: List[Ranking]
+
+    class Ranking(BaseModel):
+        date: str
+        """ 조회 기준일 (KST, 일 단위 데이터로 시, 분은 일괄 0으로 표기) """
+
+        ranking: int
+        """ 종합 랭킹 순위 """
+
+        character_name: str
+        """ 캐릭터 명 """
+
+        world_name: str
+        """ 월드 명 """
+
+        class_name: str
+        """ 직업 명 """
+
+        sub_class_name: str
+        """ 전직 직업 명 """
+
+        character_level: int
+        """ 캐릭터 레벨 """
+
+        dojang_floor: int
+        """ 무릉도장 구간 """
+
+        dojang_time_record: int
+        """ 무릉도장 클리어 시간 기록 (초 단위) """
+
+
+class GetTheSeedRankingRequestParam(TypedDict, total=False):
+    date: Required[str]
+    """ 조회 기준일 (KST) """
+
+    world_name: str
+    """ 월드 명 
+
+    Available values: 스카니아, 베라, 루나, 제니스, 크로아, 유니온, 엘리시움, 이노시스, 레드, 오로라, 아케인, 노바, 리부트, 리부트2, 버닝, 버닝2, 버닝3
+    """
+
+    ocid: str
+    """ 캐릭터 식별자 """
+
+    page: int
+    """ 페이지 번호 """
+
+
+class MapleStoryTheSeedRanking(BaseModel):
+    ranking: List[Ranking]
+
+    class Ranking(BaseModel):
+        date: str
+        """ 조회 기준일 (KST, 일 단위 데이터로 시, 분은 일괄 0으로 표기) """
+
+        ranking: int
+        """ 종합 랭킹 순위 """
+
+        character_name: str
+        """ 캐릭터 명 """
+
+        world_name: str
+        """ 월드 명 """
+
+        class_name: str
+        """ 직업 명 """
+
+        sub_class_name: str
+        """ 전직 직업 명 """
+
+        character_level: int
+        """ 캐릭터 레벨 """
+
+        theseed_floor: int
+        """ 더 시드 도달 층 """
+
+        theseed_time_record: int
+        """ 더 시드 클리어 시간 기록 (초 단위) """
+
+
+class GetAchievementRankingRequestParam(TypedDict, total=False):
+    date: Required[str]
+    """ 조회 기준일 (KST) """
+
+    ocid: str
+    """ 캐릭터 식별자 """
+
+    page: int
+    """ 페이지 번호 """
+
+
+class MapleStoryAchievementRanking(BaseModel):
+    ranking: List[Ranking]
+
+    class Ranking(BaseModel):
+        date: str
+        """ 조회 기준일 (KST, 일 단위 데이터로 시, 분은 일괄 0으로 표기) """
+
+        ranking: int
+        """ 종합 랭킹 순위 """
+
+        character_name: str
+        """ 캐릭터 명 """
+
+        world_name: str
+        """ 월드 명 """
+
+        class_name: str
+        """ 직업 명 """
+
+        sub_class_name: str
+        """ 전직 직업 명 """
+
+        trophy_grade: str
+        """ 업적 등급 """
+
+        trophy_score: int
+        """ 업적 점수 """

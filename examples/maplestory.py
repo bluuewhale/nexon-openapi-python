@@ -4,6 +4,7 @@ from nexon_openapi import NexonOpenAPI, NexonOpenAPIAsync
 if __name__ == "__main__":
     client = NexonOpenAPI()
 
+    # 캐릭터 정보 조회
     ocid = client.maplestory.get_ocid(character_name="")
     character_basic = client.maplestory.get_character_basic(ocid=ocid)
     character_popularity = client.maplestory.get_character_popularity(ocid=ocid)
@@ -25,13 +26,27 @@ if __name__ == "__main__":
     character_hexa_matrix_stat = client.maplestory.get_character_hexa_matrix_stat(ocid=ocid)
     character_dojang = client.maplestory.get_character_dojang(ocid=ocid)
 
+    # 유니온 정보 조회
     user_union = client.maplestory.get_user_union(ocid=ocid)
     user_union_raider = client.maplestory.get_user_union_raider(ocid=ocid)
+
+    # 길드 정보 조회
+    guild_id = client.maplestory.get_guild_id(world_name="", guild_name="")
+    guild_basic = client.maplestory.get_guild_basic(guild_id=guild_id)
+
+    # 랭킹 정보 조회
+    overall_ranking = client.maplestory.get_overall_ranking()
+    union_ranking = client.maplestory.get_union_ranking()
+    guild_ranking = client.maplestory.get_guild_ranking(ranking_type="0")
+    dojang_ranking = client.maplestory.get_dojang_ranking(difficulty="1")
+    the_seed_ranking = client.maplestory.get_the_seed_ranking()
+    achievement_ranking = client.maplestory.get_achievement_ranking()
 
     # Async
     async def async_main():
         client = NexonOpenAPIAsync()
 
+        # 캐릭터 정보 조회
         ocid = await client.maplestory.get_ocid(character_name="")
         character_basic = await client.maplestory.get_character_basic(ocid=ocid)
         character_popularity = await client.maplestory.get_character_popularity(ocid=ocid)
@@ -53,7 +68,20 @@ if __name__ == "__main__":
         character_hexa_matrix_stat = await client.maplestory.get_character_hexa_matrix_stat(ocid=ocid)
         character_dojang = await client.maplestory.get_character_dojang(ocid=ocid)
 
+        # 유니온 정보 조회
         user_union = await client.maplestory.get_user_union(ocid=ocid)
         user_union_raider = await client.maplestory.get_user_union_raider(ocid=ocid)
 
-    # asyncio.run(async_main())
+        # 길드 정보 조회
+        guild_id = await client.maplestory.get_guild_id(world_name="", guild_name="")
+        guild_basic = await client.maplestory.get_guild_basic(guild_id=guild_id)
+
+        # 랭킹 정보 조회
+        overall_ranking = await client.maplestory.get_overall_ranking()
+        union_ranking = await client.maplestory.get_union_ranking()
+        guild_ranking = await client.maplestory.get_guild_ranking(ranking_type="0")
+        dojang_ranking = await client.maplestory.get_dojang_ranking(difficulty="1")
+        the_seed_ranking = await client.maplestory.get_the_seed_ranking()
+        achievement_ranking = await client.maplestory.get_achievement_ranking()
+
+    asyncio.run(async_main())
