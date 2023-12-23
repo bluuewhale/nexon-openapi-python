@@ -21,6 +21,8 @@ from .resources import (
     MabinogiHeroesAsync,
     CrazyArcade,
     CrazyArcadeAsync,
+    MapleStory,
+    MapleStoryAsync,
     MapleStoryM,
     MapleStoryMAsync,
     Baram,
@@ -34,7 +36,7 @@ from .resources import (
     V4,
     V4Async,
     FCOnline,
-    FCOnlineAsync
+    FCOnlineAsync,
 )
 
 
@@ -51,6 +53,7 @@ class NexonOpenAPI(SyncAPIClient):
     hit2: Hit2
     v4: V4
     fc_online: FCOnline
+    maplestory: MapleStory
 
     def __init__(
         self,
@@ -98,10 +101,11 @@ class NexonOpenAPI(SyncAPIClient):
             strict_response_validation=strict_response_validation,
         )
 
+        self.maplestory = MapleStory(self)
+        self.maplestorym = MapleStoryM(self)
         self.wars_of_prasia = WarsOfPrasia(self)
         self.mabinogi_heroes = MabinogiHeroes(self)
         self.crazy_arcade = CrazyArcade(self)
-        self.maplestorym = MapleStoryM(self)
         self.baram = Baram(self)
         self.baramy = BaramY(self)
         self.kartrush = KartRiderRushPlus(self)
@@ -165,10 +169,11 @@ class NexonOpenAPI(SyncAPIClient):
 class NexonOpenAPIAsync(AsyncAPIClient):
     api_key: str
 
+    maplestory: MapleStoryAsync
+    maplestorym: MapleStoryMAsync
     wars_of_prasia: WarsOfPrasiaAsync
     mabinogi_heroes: MabinogiHeroesAsync
     crazy_arcade: CrazyArcadeAsync
-    maplestorym: MapleStoryMAsync
     baram: BaramAsync
     baramy: BaramYAsync
     kartrush: KartRiderRushPlusAsync
@@ -222,10 +227,11 @@ class NexonOpenAPIAsync(AsyncAPIClient):
             strict_response_validation=strict_response_validation,
         )
 
+        self.maplestory = MapleStoryAsync(self)
+        self.maplestorym = MapleStoryMAsync(self)
         self.wars_of_prasia = WarsOfPrasiaAsync(self)
         self.mabinogi_heroes = MabinogiHeroesAsync(self)
         self.crazy_arcade = CrazyArcadeAsync(self)
-        self.maplestorym = MapleStoryMAsync(self)
         self.baram = BaramAsync(self)
         self.baramy = BaramYAsync(self)
         self.kartrush = KartRiderRushPlusAsync(self)
