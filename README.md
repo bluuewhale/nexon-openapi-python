@@ -22,7 +22,7 @@ Nexon OpeanAPI Python 라이브러리에서 지원하는 기능들은 다음과 
 
 - 바람의나라
 - 바람의나라:연
-- 메이플스토리 (`예정`)
+- 메이플스토리
 - 메이플스토리M
 - 마비노기 영웅전
 - 크레이지아케이드
@@ -40,11 +40,11 @@ import os
 from nexon_openapi import NexonOpenAPI
 
 client = NexonOpenAPI(
-    api_key=os.environ.get("NEXON_OPENAPI_API_KEY") # api_key 값이 주어지지 않은 경우, 기본적으로 내부적으로 환경 변수(`NEXON_OPEN_API_KEY`)를 파싱합니다.
+    api_key=os.environ.get("NEXON_OPENAPI_API_KEY") # api_key 값이 주어지지 않은 경우, 기본적으로 환경 변수(`NEXON_OPEN_API_KEY`)를 파싱합니다.
 )
 
 ocid = client.mabinogi_heroes.get_ocid(character_name="")
-character_basic = client.mabinogi_heroes.get_character_basic(ocid=ocid)
+character_basic = client.maplestory.get_character_basic(ocid=ocid)
 
 ```
 
@@ -57,12 +57,12 @@ import os
 from nexon_openapi import NexonOpenAPIAsync
 
 client = NexonOpenAPIAsync(
-    api_key=os.environ.get("NEXON_OPENAPI_API_KEY") # api_key 값이 주어지지 않은 경우, 기본적으로 내부적으로 환경 변수(`NEXON_OPEN_API_KEY`)를 파싱합니다.
+    api_key=os.environ.get("NEXON_OPENAPI_API_KEY") # api_key 값이 주어지지 않은 경우, 기본적으로 환경 변수(`NEXON_OPEN_API_KEY`)를 파싱합니다.
 )
 
 async def main() -> None:
-    ocid = await client.mabinogi_heroes.get_ocid(character_name="")
-    character_basic = await client.mabinogi_heroes.get_character_basic(ocid=ocid)
+    ocid = await client.maplestory.get_ocid(character_name="")
+    character_basic = await client.maplestory.get_character_basic(ocid=ocid)
 
 asyncio.run(main())
 ```

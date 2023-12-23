@@ -4,7 +4,7 @@ from nexon_openapi import NexonOpenAPI, NexonOpenAPIAsync
 if __name__ == "__main__":
     client = NexonOpenAPI()
 
-    ocid = client.maplestory.get_ocid(character_name="오지환")
+    ocid = client.maplestory.get_ocid(character_name="")
     character_basic = client.maplestory.get_character_basic(ocid=ocid)
     character_popularity = client.maplestory.get_character_popularity(ocid=ocid)
     character_stat = client.maplestory.get_character_stat(ocid=ocid)
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     async def async_main():
         client = NexonOpenAPIAsync()
 
-        ocid = await client.maplestory.get_ocid(character_name="오지환")
+        ocid = await client.maplestory.get_ocid(character_name="")
         character_basic = await client.maplestory.get_character_basic(ocid=ocid)
         character_popularity = await client.maplestory.get_character_popularity(ocid=ocid)
         character_stat = await client.maplestory.get_character_stat(ocid=ocid)
