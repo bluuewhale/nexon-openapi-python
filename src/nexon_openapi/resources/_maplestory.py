@@ -20,6 +20,7 @@ if TYPE_CHECKING:
 
 KST_TIMEZONE = timezone(timedelta(hours=9))
 ONE_DAY = timedelta(days=1)
+TWO_DAY = timedelta(days=2)
 
 
 class MapleStory(SyncAPIResource):
@@ -62,7 +63,7 @@ class MapleStory(SyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterBasic:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return self._get(
             path="maplestory/v1/character/basic",
@@ -86,7 +87,7 @@ class MapleStory(SyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterPopularity:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return self._get(
             path="maplestory/v1/character/popularity",
@@ -110,7 +111,7 @@ class MapleStory(SyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterStat:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return self._get(
             path="maplestory/v1/character/stat",
@@ -134,7 +135,7 @@ class MapleStory(SyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterHyperStat:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return self._get(
             path="maplestory/v1/character/hyper-stat",
@@ -158,7 +159,7 @@ class MapleStory(SyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterPropensity:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return self._get(
             path="maplestory/v1/character/propensity",
@@ -182,7 +183,7 @@ class MapleStory(SyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterAbility:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return self._get(
             path="maplestory/v1/character/ability",
@@ -206,7 +207,7 @@ class MapleStory(SyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterItemEquipment:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return self._get(
             path="maplestory/v1/character/item-equipment",
@@ -230,7 +231,7 @@ class MapleStory(SyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterCashItemEquipment:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return self._get(
             path="maplestory/v1/character/cashitem-equipment",
@@ -254,7 +255,7 @@ class MapleStory(SyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterSymbolEquipment:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return self._get(
             path="maplestory/v1/character/symbol-equipment",
@@ -278,7 +279,7 @@ class MapleStory(SyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterSetEffect:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return self._get(
             path="maplestory/v1/character/set-effect",
@@ -302,7 +303,7 @@ class MapleStory(SyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterBeautyEquipment:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return self._get(
             path="maplestory/v1/character/beauty-equipment",
@@ -326,7 +327,7 @@ class MapleStory(SyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterAndroidEquipment:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return self._get(
             path="maplestory/v1/character/android-equipment",
@@ -350,7 +351,7 @@ class MapleStory(SyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterPetEquipment:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return self._get(
             path="maplestory/v1/character/pet-equipment",
@@ -395,7 +396,7 @@ class MapleStory(SyncAPIResource):
 
 
         """
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return self._get(
             path="maplestory/v1/character/skill",
@@ -422,7 +423,7 @@ class MapleStory(SyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterLinkSkill:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return self._get(
             path="maplestory/v1/character/link-skill",
@@ -449,7 +450,7 @@ class MapleStory(SyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterVMatrix:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return self._get(
             path="maplestory/v1/character/vmatrix",
@@ -476,7 +477,7 @@ class MapleStory(SyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterHexaMatrix:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return self._get(
             path="maplestory/v1/character/hexamatrix",
@@ -503,7 +504,7 @@ class MapleStory(SyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterHexaMatrixStat:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return self._get(
             path="maplestory/v1/character/hexamatrix-stat",
@@ -530,7 +531,7 @@ class MapleStory(SyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterDojang:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return self._get(
             path="maplestory/v1/character/dojang",
@@ -588,7 +589,7 @@ class MapleStoryAsync(AsyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterBasic:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return await self._get(
             path="maplestory/v1/character/basic",
@@ -612,7 +613,7 @@ class MapleStoryAsync(AsyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterPopularity:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return await self._get(
             path="maplestory/v1/character/popularity",
@@ -636,7 +637,7 @@ class MapleStoryAsync(AsyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterStat:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return await self._get(
             path="maplestory/v1/character/stat",
@@ -660,7 +661,7 @@ class MapleStoryAsync(AsyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterHyperStat:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return await self._get(
             path="maplestory/v1/character/hyper-stat",
@@ -684,7 +685,7 @@ class MapleStoryAsync(AsyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterPropensity:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return await self._get(
             path="maplestory/v1/character/propensity",
@@ -708,7 +709,7 @@ class MapleStoryAsync(AsyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterAbility:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return await self._get(
             path="maplestory/v1/character/ability",
@@ -732,7 +733,7 @@ class MapleStoryAsync(AsyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterItemEquipment:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return await self._get(
             path="maplestory/v1/character/item-equipment",
@@ -756,7 +757,7 @@ class MapleStoryAsync(AsyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterCashItemEquipment:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return await self._get(
             path="maplestory/v1/character/cashitem-equipment",
@@ -780,7 +781,7 @@ class MapleStoryAsync(AsyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterSymbolEquipment:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return await self._get(
             path="maplestory/v1/character/symbol-equipment",
@@ -804,7 +805,7 @@ class MapleStoryAsync(AsyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterSetEffect:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return await self._get(
             path="maplestory/v1/character/set-effect",
@@ -828,7 +829,7 @@ class MapleStoryAsync(AsyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterBeautyEquipment:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return await self._get(
             path="maplestory/v1/character/beauty-equipment",
@@ -852,7 +853,7 @@ class MapleStoryAsync(AsyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterAndroidEquipment:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return await self._get(
             path="maplestory/v1/character/android-equipment",
@@ -876,7 +877,7 @@ class MapleStoryAsync(AsyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterPetEquipment:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return await self._get(
             path="maplestory/v1/character/pet-equipment",
@@ -921,7 +922,7 @@ class MapleStoryAsync(AsyncAPIResource):
 
 
         """
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return await self._get(
             path="maplestory/v1/character/skill",
@@ -948,7 +949,7 @@ class MapleStoryAsync(AsyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterLinkSkill:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return await self._get(
             path="maplestory/v1/character/link-skill",
@@ -975,7 +976,7 @@ class MapleStoryAsync(AsyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterVMatrix:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return await self._get(
             path="maplestory/v1/character/vmatrix",
@@ -1002,7 +1003,7 @@ class MapleStoryAsync(AsyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterHexaMatrix:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return await self._get(
             path="maplestory/v1/character/hexamatrix",
@@ -1029,7 +1030,7 @@ class MapleStoryAsync(AsyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterHexaMatrixStat:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return await self._get(
             path="maplestory/v1/character/hexamatrix-stat",
@@ -1056,7 +1057,7 @@ class MapleStoryAsync(AsyncAPIResource):
         extra_body: Optional[Body] = None,
         timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
     ) -> MapleStoryCharacterDojang:
-        date = validate_date(date) if date is not None else get_date_yesterday_in_kst()
+        date = validate_date(date) if date is not None else get_latest_date_available()
 
         return await self._get(
             path="maplestory/v1/character/dojang",
@@ -1082,8 +1083,13 @@ def validate_date(date: str) -> str:
         raise ValueError("date must be in YYYY-mm-dd format")
 
 
-def get_date_yesterday_in_kst() -> str:
-    return (datetime.now(KST_TIMEZONE) - ONE_DAY).strftime("%Y-%m-%d")
+def get_latest_date_available() -> str:
+    now = datetime.now(KST_TIMEZONE)
+
+    if now.hour == 0:  # data is being updated between 0:00 ~ 1:00, we have to look up the day before yesterday
+        return (now - TWO_DAY).strftime("%Y-%m-%d")
+
+    return (now - ONE_DAY).strftime("%Y-%m-%d")
 
 
 class CashItemEquipment(BaseModel):
