@@ -1,13 +1,13 @@
 from __future__ import annotations
 from datetime import datetime, timezone, timedelta
 
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
+from typing import TYPE_CHECKING, List, Optional, Union
 from typing_extensions import Required, TypedDict, Annotated
 
 
 import httpx
 
-from ._types import Ocid
+from ._types import Ocid, Ouid
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._models import BaseModel
 from ..utils import maybe_transform
@@ -52,6 +52,27 @@ class MapleStory(SyncAPIResource):
         )
 
         return response.ocid
+
+    def get_ouid(
+        self,
+        *,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> str:
+        response = self._get(
+            "maplestory/v1/ouid",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=Ouid,
+        )
+
+        return response.ouid
 
     def get_character_basic(
         self,
@@ -1195,6 +1216,27 @@ class MapleStoryAsync(AsyncAPIResource):
         )
 
         return response.ocid
+
+    async def get_ouid(
+        self,
+        *,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> str:
+        response = await self._get(
+            "maplestory/v1/ouid",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=Ouid,
+        )
+
+        return response.ouid
 
     async def get_character_basic(
         self,
@@ -2413,6 +2455,10 @@ class CharacterFace(BaseModel):
 
 class GetOcidRequestParam(TypedDict, total=True):
     character_name: Required[str]
+
+
+class GetOuidRequestParam(TypedDict, total=True):
+    pass
 
 
 class GetCharacterBasicRequestParam(TypedDict, total=False):
