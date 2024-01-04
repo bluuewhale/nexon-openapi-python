@@ -1186,6 +1186,42 @@ class MapleStory(SyncAPIResource):
             cast_to=MapleStoryAchievementRanking,
         )
 
+    def get_starforce_history(
+        self,
+        *,
+        count: int,
+        date: Optional[str] = None,
+        cursor: Optional[str] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryStartForceHistory:
+        if date is not None and cursor is not None:
+            raise ValueError("either 'date' or 'cursor' must be None")
+
+        if cursor is None:
+            date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return self._get(
+            path="maplestory/v1/history/starforce",
+            options=make_request_options(
+                query=maybe_transform(
+                    {
+                        "date": date,
+                        "count": count,
+                        "cursor": cursor,
+                    },
+                    GetStartforceHistoryRequestParam,
+                ),
+                extra_query=extra_query,
+                extra_headers=extra_headers,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryStartForceHistory,
+        )
+
 
 class MapleStoryAsync(AsyncAPIResource):
     def __init__(self, client: NexonOpenAPIAsync) -> None:
@@ -2350,6 +2386,42 @@ class MapleStoryAsync(AsyncAPIResource):
                 timeout=timeout,
             ),
             cast_to=MapleStoryAchievementRanking,
+        )
+
+    async def get_starforce_history(
+        self,
+        *,
+        count: int,
+        date: Optional[str] = None,
+        cursor: Optional[str] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryStartForceHistory:
+        if date is not None and cursor is not None:
+            raise ValueError("either 'date' or 'cursor' must be None")
+
+        if cursor is None:
+            date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return await self._get(
+            path="maplestory/v1/history/starforce",
+            options=make_request_options(
+                query=maybe_transform(
+                    {
+                        "date": date,
+                        "count": count,
+                        "cursor": cursor,
+                    },
+                    GetStartforceHistoryRequestParam,
+                ),
+                extra_query=extra_query,
+                extra_headers=extra_headers,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryStartForceHistory,
         )
 
 
@@ -4058,3 +4130,89 @@ class MapleStoryAchievementRanking(BaseModel):
 
         trophy_score: int
         """ 업적 점수 """
+
+
+class GetStartforceHistoryRequestParam(TypedDict, total=False):
+    count: Required[int]
+    """ 한번에 가져오려는 결과의 갯수(최소 10, 최대 1000) """
+
+    date: str
+    """ 조회 기준일 (KST) """
+
+    cursor: str
+    """ 페이징 처리를 위한 cursor (date가 없는 경우 필수이며 date와 함께 사용 불가) """
+
+
+class MapleStoryStartForceHistory(BaseModel):
+    count: int
+    """ 결과 건 수 """
+
+    next_cursor: str
+    """ 페이징 처리를 위한 cursor """
+
+    starforce_history: List[StartForceHistory]
+
+    class StartForceHistory(BaseModel):
+        id: str
+        """ 스타포스 히스토리 식별자 """
+
+        item_upgrade_result: str
+        """ 강화 시도 결과 """
+
+        before_starforce_count: int
+        """ 강화 시도 전 스타포스 수치 """
+
+        after_starforce_count: int
+        """ 강화 시도 전 스타포스 수치 """
+
+        starcatch_result: str
+        """ 스타 캐치 """
+
+        superior_item_flag: str
+        """ 슈페리얼 장비 """
+
+        destory_defence: str
+        """ 파괴 방지 """
+
+        chance_time: str
+        """ 파괴 방지 """
+
+        event_field_flag: str
+        """ 파괴 방지 필드 이벤트 """
+
+        upgrade_item: str
+        """ 사용 주문서 명 """
+
+        protect_shield: str
+        """ 프로텍트 실드 """
+
+        bonus_stat_upgrade: str
+        """ 보너스 스탯 부여 아이템 여부 """
+
+        character_name: str
+        """ 캐릭터 명 """
+
+        world_name: str
+        """ 월드 명 """
+
+        target_item: str
+        """ 대상 장비 아이템 명 """
+
+        date_create: str
+        """ 강화 일시 (KST) """
+
+        starforce_event_list: List[StartForceEvent]
+        """ 진행 중인 스타포스 강화 이벤트 정보 """
+
+        class StartForceEvent(BaseModel):
+            success_rate: str
+            """ 이벤트 성공 확률 """
+
+            cost_discount_rate: str
+            """ 이벤트 비용 할인율 """
+
+            plus_value: str
+            """ 이벤트 강화 수치 가중값 """
+
+            starfoce_event_range: str
+            """ 이벤트 적용 강화 시도 가능한 n성 범위 """

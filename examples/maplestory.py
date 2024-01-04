@@ -42,6 +42,9 @@ if __name__ == "__main__":
     the_seed_ranking = client.maplestory.get_the_seed_ranking()
     achievement_ranking = client.maplestory.get_achievement_ranking()
 
+    # 확률 정보 조회
+    startforce_history = client.maplestory.get_starforce_history(count=10)
+
     # Async
     async def async_main():
         client = NexonOpenAPIAsync()
@@ -83,5 +86,8 @@ if __name__ == "__main__":
         dojang_ranking = await client.maplestory.get_dojang_ranking(difficulty="1")
         the_seed_ranking = await client.maplestory.get_the_seed_ranking()
         achievement_ranking = await client.maplestory.get_achievement_ranking()
+
+        # 확률 정보 조회
+        startforce_history = await client.maplestory.get_starforce_history(count=10)
 
     asyncio.run(async_main())
