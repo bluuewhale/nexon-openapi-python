@@ -240,6 +240,7 @@ class MapleStory(SyncAPIResource):
                 timeout=timeout,
             ),
             cast_to=MapleStoryCharacterItemEquipment,
+            # cast_to=Dict[str, Any],
         )
 
     def get_character_cash_item_equipment(
@@ -2756,29 +2757,38 @@ class MapleStoryCharacterItemEquipment(BaseModel):
     character_class: str
     """ 캐릭터 직업 """
 
-    item_equipment: ItemEquipment
+    preset_no: Optional[int]
+    """ 적용 중인 프리셋 번호 """
+
+    item_equipment: List[ItemEquipment]
     """ 장비 정보 """
+
+    item_equipment_preset1: Optional[List[ItemEquipment]]
+    """ 1번 프리셋 장비 정보 """
+
+    item_equipment_preset2: Optional[List[ItemEquipment]]
+    """ 2번 프리셋 장비 정보 """
+
+    item_equipment_preset3: Optional[List[ItemEquipment]]
+    """ 3번 프리셋 장비 정보 """
 
     title: Title
     """ 칭호 정보 """
 
-    dragon_equipment: Optional[ItemEquipment]
+    dragon_equipment: List[ItemEquipment]
     """ 에반 드래곤 장비 정보 (에반인 경우 응답) """
 
-    mechanic_equipment: Optional[ItemEquipment]
+    mechanic_equipment: List[ItemEquipment]
     """ 메카닉 장비 정보 (메카닉인 경우 응답) """
 
     class Title(BaseModel):
-        description: str
-        """ 칭호 정보 """
-
         title_name: str
         """ 칭호 장비 명 """
 
         title_icon: str
         """ 칭호 아이콘 """
 
-        title_description: str
+        title_description: List[str]
         """ 칭호 설명 """
 
         date_expire: str
@@ -2800,7 +2810,7 @@ class MapleStoryCharacterItemEquipment(BaseModel):
         item_icon: str
         """ 장비 아이콘 """
 
-        item_description: str
+        item_description: Optional[str]
         """ 장비 설명 """
 
         item_shape_name: str
@@ -2809,34 +2819,34 @@ class MapleStoryCharacterItemEquipment(BaseModel):
         item_shape_icon: str
         """ 장비 외형 아이콘 """
 
-        gender: str
+        item_gender: Optional[str]
         """ 전용 성별 """
 
-        potential_option_grade: str
+        potential_option_grade: Optional[str]
         """ 잠재능력 등급 """
 
-        additional_potential_option_grade: str
+        additional_potential_option_grade: Optional[str]
         """ 에디셔널 잠재능력 등급 """
 
-        potential_option_1: str
+        potential_option_1: Optional[str]
         """ 잠재능력 첫 번째 옵션 """
 
-        potential_option_2: str
+        potential_option_2: Optional[str]
         """ 잠재능력 두 번째 옵션 """
 
-        potential_option_3: str
+        potential_option_3: Optional[str]
         """ 잠재능력 세 번째 옵션 """
 
-        addtional_potential_option_1: str
+        addtional_potential_option_1: Optional[str]
         """ 에디셔널 잠재능력 첫 번째 옵션 """
 
-        addtional_potential_option_2: str
+        addtional_potential_option_2: Optional[str]
         """ 에디셔널 잠재능력 두 번째 옵션 """
 
-        addtional_potential_option_3: str
+        addtional_potential_option_3: Optional[str]
         """ 에디셔널 잠재능력 세 번째 옵션 """
 
-        equipment_level_incrase: int
+        equipment_level_increase: int
         """ 착용 레벨 증가 """
 
         growth_exp: int
@@ -2857,15 +2867,13 @@ class MapleStoryCharacterItemEquipment(BaseModel):
         scroll_resilience_count: str
         """ 복구 가능 횟수 """
 
-        scroll_upgradable_count: str
-        """ 업그레이드 가능 횟수 
-        TODO: 반환되는 정보가 실제 API 명세와 일치하지 않음, 해당 값은 응답 값을 기준으로 작성
-        """
+        scroll_upgradeable_count: str
+        """ 업그레이드 가능 횟수 """
 
-        soul_name: str
+        soul_name: Optional[str]
         """ 소울 명 """
 
-        soul_option: str
+        soul_option: Optional[str]
         """ 소울 옵션 """
 
         starforce: str
@@ -2877,7 +2885,7 @@ class MapleStoryCharacterItemEquipment(BaseModel):
         special_ring_level: int
         """ 특수 반지 레벨 """
 
-        date_expire: str
+        date_expire: Optional[str]
         """ 장비 유효 기간(KST) """
 
         item_total_option: MapleStoryCharacterItemEquipment.ItemTotalOption
@@ -2888,9 +2896,6 @@ class MapleStoryCharacterItemEquipment(BaseModel):
         item_starforce_option: MapleStoryCharacterItemEquipment.ItemEtcOption
 
     class ItemExceptionalOption(BaseModel):
-        description: str
-        """ 장비 최종 옵션 정보 """
-
         str: str
         """ STR """
 
@@ -2900,7 +2905,7 @@ class MapleStoryCharacterItemEquipment(BaseModel):
         int: str
         """ INT """
 
-        luck: str
+        luk: str
         """ LUK """
 
         max_hp: str
@@ -2928,28 +2933,25 @@ class MapleStoryCharacterItemEquipment(BaseModel):
     class ItemAddOption(ItemEtcOption):
         boss_damage: str
         """ 보스 공격 시 데미지 증가(%) """
-        all_stat: str
-        """ 올스탯(%) """
 
         damage: str
         """ 데미지(%) """
 
-    class ItemTotalOption(ItemAddOption):
-        ignore_monster_armot: str
-        """ 몬스터 방어율 무시(%) """
-
-        max_hp_rate: str
-        """ 최대 HP(%) """
-
-        max_mp_rate: str
-        """ 최대 MP(%) """
+        all_stat: str
+        """ 올스탯(%) """
 
         equipment_level_decrease: int
         """ 착용 레벨 감소 """
 
-    class ItemBaseOption(ItemAddOption):
-        ignore_monster_armot: str
+    class ItemBaseOption(ItemEtcOption):
+        boss_damage: str
+        """ 보스 공격 시 데미지 증가(%) """
+
+        ignore_monster_armor: str
         """ 몬스터 방어율 무시(%) """
+
+        all_stat: str
+        """ 올스탯(%) """
 
         max_hp_rate: str
         """ 최대 HP(%) """
@@ -2957,8 +2959,18 @@ class MapleStoryCharacterItemEquipment(BaseModel):
         max_mp_rate: str
         """ 최대 MP(%) """
 
-        base_level_decrease: int
+        base_equipment_level: int
         """ 기본 착용 레벨 """
+
+    class ItemTotalOption(ItemAddOption):
+        ignore_monster_armor: str
+        """ 몬스터 방어율 무시(%) """
+
+        max_hp_rate: str
+        """ 최대 HP(%) """
+
+        max_mp_rate: str
+        """ 최대 MP(%) """
 
 
 class GetCharacterCashItemEquipmentRequestParam(TypedDict, total=False):
