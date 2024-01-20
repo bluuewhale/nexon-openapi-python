@@ -2768,13 +2768,13 @@ class MapleStoryCharacterItemEquipment(BaseModel):
     item_equipment: List[ItemEquipment]
     """ 장비 정보 """
 
-    item_equipment_preset1: Optional[List[ItemEquipment]]
+    item_equipment_preset_1: Optional[List[ItemEquipment]] = Field(None, alias="item_equipment_preset1")
     """ 1번 프리셋 장비 정보 """
 
-    item_equipment_preset2: Optional[List[ItemEquipment]]
+    item_equipment_preset_2: Optional[List[ItemEquipment]] = Field(None, alias="item_equipment_preset1")
     """ 2번 프리셋 장비 정보 """
 
-    item_equipment_preset3: Optional[List[ItemEquipment]]
+    item_equipment_preset_3: Optional[List[ItemEquipment]] = Field(None, alias="item_equipment_preset1")
     """ 3번 프리셋 장비 정보 """
 
     title: Title
@@ -3354,7 +3354,7 @@ class MapleStoryCharacterPetEquipment(BaseModel):
         scroll_upgrade: int
         """ 업그레이드 횟수 """
 
-        scroll_upgradable: int
+        scroll_upgradeable: int = Field(0, alias="scroll_upgradable")
         """ 업그레이드 가능 횟수 """
 
         item_shape: Optional[str]
