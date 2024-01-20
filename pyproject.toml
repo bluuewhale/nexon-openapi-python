@@ -10,6 +10,9 @@ python = "^3.7"
 httpx = "^0.24.0"
 pydantic = "^2.5.2"
 
+[tool.poetry.group.dev.dependencies]
+devtools = "^0.12.2"
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
