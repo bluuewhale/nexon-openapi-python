@@ -616,6 +616,30 @@ class MapleStory(SyncAPIResource):
             cast_to=MapleStoryUserUnionRaider,
         )
 
+    def get_user_union_artifact(
+        self,
+        *,
+        ocid: str,
+        date: Optional[str] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryUserUnionArtifact:
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return self._get(
+            path="maplestory/v1/user/union-artifact",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid, "date": date}, GetUserUnionArtifactRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryUserUnionArtifact,
+        )
+
     def get_guild_id(
         self,
         *,
@@ -1814,6 +1838,30 @@ class MapleStoryAsync(AsyncAPIResource):
                 timeout=timeout,
             ),
             cast_to=MapleStoryUserUnionRaider,
+        )
+
+    async def get_user_union_artifact(
+        self,
+        *,
+        ocid: str,
+        date: Optional[str] = None,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryUserUnionArtifact:
+        date = validate_date(date) if date is not None else get_latest_date_available()
+
+        return await self._get(
+            path="maplestory/v1/user/union-artifact",
+            options=make_request_options(
+                query=maybe_transform({"ocid": ocid, "date": date}, GetUserUnionArtifactRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryUserUnionArtifact,
         )
 
     async def get_guild_id(
@@ -3708,6 +3756,54 @@ class MapleStoryUserUnionRaider(BaseModel):
 
             y: int
             """ 블록 Y좌표"""
+
+
+class GetUserUnionArtifactRequestParam(TypedDict, total=False):
+    ocid: Required[str]
+    date: Required[str]
+
+
+class MapleStoryUserUnionArtifact(BaseModel):
+    date: str
+    """ 조회 기준일 (KST, 일 단위 데이터로 시, 분은 일괄 0으로 표기) """
+
+    union_artifact_effect: List[UnionArtifactEffect]
+    """ 유니온 아티팩트 효과 정보 """
+
+    union_artifact_crystal: List[UnionArtifactCrystal]
+    """ 유니온 아티팩트 크리스탈 정보 """
+
+    union_artifact_remain_ap: int
+    """ 잔여 아티팩트 AP """
+
+    class UnionArtifactEffect(BaseModel):
+        name: str
+        """ 아티팩트 효과 명 """
+
+        name: str
+        """ 아티팩트 효과 레벨 """
+
+    class UnionArtifactCrystal(BaseModel):
+        name: str
+        """ 아티팩트 크리스탈 명 """
+
+        validity_flag: str
+        """ 능력치 유효 여부 (0:유효, 1:유효하지 않음) """
+
+        date_expire: Optional[str]
+        """ 능력치 유효 기간(KST) """
+
+        level: int
+        """ 아티팩트 크리스탈 등급 """
+
+        crystal_option_name_1: str
+        """ 아티팩트 크리스탈 첫 번째 옵션 명 """
+
+        crystal_option_name_2: str
+        """ 아티팩트 크리스탈 두 번째 옵션 명 """
+
+        crystal_option_name_3: str
+        """ 아티팩트 크리스탈 세 번째 옵션 명 """
 
 
 class GetGuildIdRequestParam(TypedDict, total=False):
