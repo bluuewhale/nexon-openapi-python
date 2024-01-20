@@ -1,4 +1,5 @@
 import asyncio
+from devtools import debug
 from nexon_openapi import NexonOpenAPI, NexonOpenAPIAsync
 
 if __name__ == "__main__":
@@ -26,15 +27,16 @@ if __name__ == "__main__":
     character_hexa_matrix_stat = client.maplestory.get_character_hexa_matrix_stat(ocid=ocid)
     character_dojang = client.maplestory.get_character_dojang(ocid=ocid)
 
-    # 유니온 정보 조회
+    # # 유니온 정보 조회
     user_union = client.maplestory.get_user_union(ocid=ocid)
     user_union_raider = client.maplestory.get_user_union_raider(ocid=ocid)
+    user_union_artifact = client.maplestory.get_user_union_artifact(ocid=ocid)
 
-    # 길드 정보 조회
+    # # 길드 정보 조회
     guild_id = client.maplestory.get_guild_id(world_name="", guild_name="")
     guild_basic = client.maplestory.get_guild_basic(guild_id=guild_id)
 
-    # 랭킹 정보 조회
+    # # 랭킹 정보 조회
     overall_ranking = client.maplestory.get_overall_ranking()
     union_ranking = client.maplestory.get_union_ranking()
     guild_ranking = client.maplestory.get_guild_ranking(ranking_type="0")
@@ -42,10 +44,10 @@ if __name__ == "__main__":
     the_seed_ranking = client.maplestory.get_the_seed_ranking()
     achievement_ranking = client.maplestory.get_achievement_ranking()
 
-    # 확률 정보 조회
+    # # 확률 정보 조회
     startforce_history = client.maplestory.get_starforce_history(count=10)
 
-    # Async
+    # # Async
     async def async_main():
         client = NexonOpenAPIAsync()
 
@@ -74,6 +76,7 @@ if __name__ == "__main__":
         # 유니온 정보 조회
         user_union = await client.maplestory.get_user_union(ocid=ocid)
         user_union_raider = await client.maplestory.get_user_union_raider(ocid=ocid)
+        user_union_artifact = await client.maplestory.get_user_union_artifact(ocid=ocid)
 
         # 길드 정보 조회
         guild_id = await client.maplestory.get_guild_id(world_name="", guild_name="")
