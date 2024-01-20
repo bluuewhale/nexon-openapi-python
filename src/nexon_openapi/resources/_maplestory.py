@@ -3246,22 +3246,29 @@ class MapleStoryCharacterPetEquipment(BaseModel):
     pet_1_icon: str
     """ 펫1 아이콘 """
 
-    pet_1_description: str
+    pet_1_description: Tuple[str]
     """ 펫1 설명 """
 
     pet_1_equipment: PetEquipment
     """ 펫1 장착 정보 """
 
-    pet_1_skill: PetAutoSkill
-    """ 펫1 펫 버프 자동스킬 정보 
-    TODO: 반환되는 정보가 실제 API 명세와 일치하지 않음, 해당 값은 응답 값을 기준으로 작성
-    """
+    pet_1_auto_skill: PetAutoSkill
+    """ 펫1 펫 버프 자동스킬 정보 """
+
+    pet_1_skill: List[str]
+    """ 펫1 펫 보유 스킬 """
 
     pet_1_pet_type: str
     """ 펫1 원더 펫 종류 """
 
     pet_1_date_expire: str
     """ 펫1 마법의 시간 (KST, 시간 단위 데이터로 분은 일괄 0으로 표기) """
+
+    pet_1_appearance: str
+    """ 펫1 외형 """
+
+    pet_1_appearance_icon: str
+    """ 펫1 외형 아이콘 """
 
     pet_2_name: str
     """ 펫2 명 """
@@ -3272,22 +3279,29 @@ class MapleStoryCharacterPetEquipment(BaseModel):
     pet_2_icon: str
     """ 펫2 아이콘 """
 
-    pet_2_description: str
+    pet_2_description: Tuple[str]
     """ 펫2 설명 """
 
     pet_2_equipment: PetEquipment
     """ 펫2 장착 정보 """
 
-    pet_2_skill: PetAutoSkill
-    """ 펫2 펫 버프 자동스킬 정보 
-    TODO: 반환되는 정보가 실제 API 명세와 일치하지 않음, 해당 값은 응답 값을 기준으로 작성
-    """
+    pet_2_auto_skill: PetAutoSkill
+    """ 펫2 펫 버프 자동스킬 정보 """
+
+    pet_2_skill: List[str]
+    """ 펫2 펫 보유 스킬 """
 
     pet_2_pet_type: str
     """ 펫2 원더 펫 종류 """
 
     pet_2_date_expire: str
     """ 펫2 마법의 시간 (KST, 시간 단위 데이터로 분은 일괄 0으로 표기) """
+
+    pet_2_appearance: str
+    """ 펫2 외형 """
+
+    pet_2_appearance_icon: str
+    """ 펫2 외형 아이콘 """
 
     pet_3_name: str
     """ 펫3 명 """
@@ -3298,22 +3312,29 @@ class MapleStoryCharacterPetEquipment(BaseModel):
     pet_3_icon: str
     """ 펫3 아이콘 """
 
-    pet_3_description: str
+    pet_3_description: Tuple[str]
     """ 펫3 설명 """
 
     pet_3_equipment: PetEquipment
     """ 펫3 장착 정보 """
 
-    pet_3_skill: PetAutoSkill
-    """ 펫3 펫 버프 자동스킬 정보 
-    TODO: 반환되는 정보가 실제 API 명세와 일치하지 않음, 해당 값은 응답 값을 기준으로 작성
-    """
+    pet_3_auto_skill: PetAutoSkill
+    """ 펫3 펫 버프 자동스킬 정보 """
+
+    pet_3_skill: List[str]
+    """ 펫3 펫 보유 스킬 """
 
     pet_3_pet_type: str
     """ 펫3 원더 펫 종류 """
 
     pet_3_date_expire: str
     """ 펫3 마법의 시간 (KST, 시간 단위 데이터로 분은 일괄 0으로 표기) """
+
+    pet_3_appearance: str
+    """ 펫3 외형 """
+
+    pet_3_appearance_icon: str
+    """ 펫3 외형 아이콘 """
 
     class PetEquipment(BaseModel):
         item_name: str
@@ -3325,14 +3346,20 @@ class MapleStoryCharacterPetEquipment(BaseModel):
         item_description: str
         """ 아이템 설명 """
 
-        item_option: PetItemOption
+        item_option: List[PetItemOption]
         """ 아이템 표기상 옵션 """
 
         scroll_upgrade: int
         """ 업그레이드 횟수 """
 
-        scroll_upgradeable: int
+        scroll_upgradable: int
         """ 업그레이드 가능 횟수 """
+
+        item_shape: Optional[str]
+        """ 아이템 외형 """
+
+        item_shape_icon: Optional[str]
+        """ 아이템 외형 아이콘 """
 
         class PetItemOption(BaseModel):
             option_type: str
