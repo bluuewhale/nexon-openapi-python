@@ -4,6 +4,8 @@ import httpx
 from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Required, TypedDict, Annotated, deprecated
 
+from pydantic import Field
+
 from ._types import Ocid, Ouid
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._models import BaseModel
@@ -3626,6 +3628,15 @@ class MapleStoryUserUnion(BaseModel):
 
     union_grade: str
     """ 유니온 레벨 """
+
+    union_artifact_level: Optional[int] = Field(None, alias="artifact_level")
+    """ 아티팩트 레벨 """
+
+    union_artifact_exp: Optional[int] = Field(None, alias="artifact_exp")
+    """ 보유 아티팩트 경험치 """
+
+    union_artifact_point: Optional[int] = Field(None, alias="artifact_point")
+    """ 보유 아티팩트 포인트 """
 
 
 class GetUserUnionRaiderRequestParam(TypedDict, total=False):
