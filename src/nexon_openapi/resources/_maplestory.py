@@ -1,7 +1,7 @@
 from __future__ import annotations
 from datetime import datetime, timezone, timedelta
 import httpx
-from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Required, TypedDict, Annotated, deprecated
 
 from ._types import Ocid, Ouid
@@ -2470,9 +2470,6 @@ class CashItemEquipment(BaseModel):
     cash_item_coloring_prism: Optional[CashItemColoringPrism]
     """ 캐시 장비 컬러링 프리즘 정보 """
 
-    item_gender: Optional[str]
-    """ 아이템 장착 가능 성별 """
-
     class CashItemOption(BaseModel):
         option_type: str
         """ 옵션 타입 """
@@ -2492,6 +2489,16 @@ class CashItemEquipment(BaseModel):
 
         value: int
         """ 컬러링프리즘 명도 """
+
+
+class CharacterCashItemEquipment(CashItemEquipment):
+    item_gender: Optional[str]
+    """ 아이템 장착 가능 성별 """
+
+
+class AndroidCashItemEquipment(CashItemEquipment):
+    android_item_gender: Optional[str]
+    """ 아이템 장착 가능 성별 """
 
 
 class CharacterHair(BaseModel):
@@ -2987,25 +2994,25 @@ class MapleStoryCharacterCashItemEquipment(BaseModel):
     preset_no: int
     """ 적용 중인 캐시 장비 프리셋 번호 """
 
-    cash_item_equipment_base: Optional[List[CashItemEquipment]]
+    cash_item_equipment_base: Optional[List[CharacterCashItemEquipment]]
     """ 장착 중인 캐시 장비 정보 """
 
-    cash_item_equipment_preset_1: List[CashItemEquipment]
+    cash_item_equipment_preset_1: List[CharacterCashItemEquipment]
     """ 1번 프리셋 장착 캐시 장비 정보 """
 
-    cash_item_equipment_preset_2: List[CashItemEquipment]
+    cash_item_equipment_preset_2: List[CharacterCashItemEquipment]
     """ 2번 프리셋 장착 캐시 장비 정보 """
 
-    cash_item_equipment_preset_3: List[CashItemEquipment]
+    cash_item_equipment_preset_3: List[CharacterCashItemEquipment]
     """ 3번 프리셋 장착 캐시 장비 정보 """
 
-    additional_cash_item_equipment_preset_1: Optional[List[CashItemEquipment]]
+    additional_cash_item_equipment_preset_1: Optional[List[CharacterCashItemEquipment]]
     """ 제로인 경우 베타, 엔젤릭버스터인 경우 드레스 업 모드의 1번 프리셋 장착 캐시 장비 정보 """
 
-    additional_cash_item_equipment_preset_2: Optional[List[CashItemEquipment]]
+    additional_cash_item_equipment_preset_2: Optional[List[CharacterCashItemEquipment]]
     """ 제로인 경우 베타, 엔젤릭버스터인 경우 드레스 업 모드의 2번 프리셋 장착 캐시 장비 정보 """
 
-    additional_cash_item_equipment_preset_3: Optional[List[CashItemEquipment]]
+    additional_cash_item_equipment_preset_3: Optional[List[CharacterCashItemEquipment]]
     """ 제로인 경우 베타, 엔젤릭버스터인 경우 드레스 업 모드의 3번 프리셋 장착 캐시 장비 정보 """
 
 
@@ -3141,8 +3148,8 @@ class MapleStoryCharacterAndroidEquipment(BaseModel):
     android_icon: str
     """ 안드로이드 아이콘 """
 
-    android_description: Optional[str]
-    """ 안드로이드 아이템 설명 """
+    android_description: Optional[Tuple[str]]
+    """ 안드로이드 설명 """
 
     android_hair: CharacterHair
     """ 안드로이드 헤어 정보 """
@@ -3153,8 +3160,72 @@ class MapleStoryCharacterAndroidEquipment(BaseModel):
     android_skin_name: str
     """ 안드로이드 피부 명 """
 
-    android_cash_item_equipment: List[CashItemEquipment]
+    android_cash_item_equipment: List[AndroidCashItemEquipment]
     """ 안드로이드 캐시 아이템 장착 정보 """
+
+    android_ear_sensor_clip_flag: Optional[str]
+    """ 안드로이드 이어센서 클립 적용 여부 """
+
+    android_gender: Optional[str]
+    """ 안드로이드 성별 """
+
+    android_grade: Optional[str]
+    """ 안드로이드 등급 """
+
+    android_non_humanoid_flag: Optional[str]
+    """ 비인간형 안드로이드 여부 """
+
+    android_shop_usable_flag: Optional[str]
+    """ 잡화상점 가능 이용 가능 여부 """
+
+    preset_no: Optional[str]
+    """ 적용 중인 장비 프리셋 번호 """
+
+    android_preset_1: Optional[AndroidInfo]
+    """ 1번 프리셋 안드로이드 정보 """
+
+    android_preset_2: Optional[AndroidInfo]
+    """ 2번 프리셋 안드로이드 정보 """
+
+    android_preset_3: Optional[AndroidInfo]
+    """ 3번 프리셋 안드로이드 정보 """
+
+    class AndroidInfo(BaseModel):
+        android_name: str
+        """ 안드로이드 명 """
+
+        android_nickname: str
+        """ 안드로이드 닉네임 """
+
+        android_icon: str
+        """ 안드로이드 아이콘 """
+
+        android_description: Optional[str]
+        """ 안드로이드 설명 """
+
+        android_gender: Optional[str]
+        """ 안드로이드 성별 """
+
+        android_grade: Optional[str]
+        """ 안드로이드 등급 """
+
+        android_skin_name: str
+        """ 안드로이드 피부 명 """
+
+        android_hair: CharacterHair
+        """ 안드로이드 헤어 정보 """
+
+        android_face: CharacterFace
+        """ 안드로이드 성형 정보 """
+
+        android_ear_sensor_clip_flag: Optional[str]
+        """ 안드로이드 이어센서 클립 적용 여부 """
+
+        android_non_humanoid_flag: Optional[str]
+        """ 비인간형 안드로이드 여부 """
+
+        android_shop_usable_flag: Optional[str]
+        """ 잡화상점 가능 이용 가능 여부 """
 
 
 class GetCharacterPetEquipmentRequestParam(TypedDict, total=False):
