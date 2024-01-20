@@ -3401,17 +3401,32 @@ class MapleStoryCharacterLinkSkill(BaseModel):
     character_class: str
     """ 캐릭터 직업 """
 
-    character_skill_grade: str
-    """ 스킬 전직 차수 """
-
     character_link_skill: List[CharacterLinkSkill]
     """ 링크 스킬 정보 """
+
+    character_link_skill_preset_1: Optional[List[CharacterLinkSkill]]
+    """ 링크 스킬 1번 프리셋 정보 """
+
+    character_link_skill_preset_2: Optional[List[CharacterLinkSkill]]
+    """ 링크 스킬 2번 프리셋 정보 """
+
+    character_link_skill_preset_3: Optional[List[CharacterLinkSkill]]
+    """ 링크 스킬 3번 프리셋 정보 """
 
     character_owned_link_skill: List[CharacterLinkSkill]
     """ 내 링크 스킬 정보 """
 
+    character_owned_link_skill_preset_1: CharacterLinkSkill
+    """ 내 링크 스킬 1번 프리셋 정보 """
+
+    character_owned_link_skill_preset_2: CharacterLinkSkill
+    """ 내 링크 스킬 2번 프리셋 정보 """
+
+    character_owned_link_skill_preset_3: CharacterLinkSkill
+    """ 내 링크 스킬 3번 프리셋 정보 """
+
     class CharacterLinkSkill(BaseModel):
-        skill_name: str
+        skill_name: Tuple[str]
         """ 스킬 명 """
 
         skill_description: str
@@ -3421,7 +3436,7 @@ class MapleStoryCharacterLinkSkill(BaseModel):
         """ 스킬 레벨 """
 
         skill_effect: str
-        """ 스킬 레벨 별 효과 설명 """
+        """ 스킬 효과 """
 
         skill_icon: str
         """ 스킬 아이콘 """
