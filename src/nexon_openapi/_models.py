@@ -15,7 +15,17 @@ from typing import (
     Union,
     cast,
 )
-from typing_extensions import Literal, Unpack, ClassVar, Required, TypedDict, final, override, runtime_checkable, Protocol
+from typing_extensions import (
+    Literal,
+    Unpack,
+    ClassVar,
+    Required,
+    TypedDict,
+    final,
+    override,
+    runtime_checkable,
+    Protocol,
+)
 
 
 from httpx import Timeout
@@ -381,7 +391,7 @@ def construct_type(*, value: object, type_: type) -> object:
 
         if is_mapping(value):
             if issubclass(type_, pydantic.BaseModel):
-                return type_.construct(**value)  # type: ignore[arg-type]
+                return type_.model_construct(**value)  # type: ignore[arg-type]
 
             return cast(Any, type_).construct(**value)
 
