@@ -1,11 +1,8 @@
 from __future__ import annotations
 from datetime import datetime, timezone, timedelta
-
-from typing import TYPE_CHECKING, List, Optional, Union
-from typing_extensions import Required, TypedDict, Annotated
-
-
 import httpx
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Union
+from typing_extensions import Required, TypedDict, Annotated, deprecated
 
 from ._types import Ocid, Ouid
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
@@ -240,7 +237,6 @@ class MapleStory(SyncAPIResource):
                 timeout=timeout,
             ),
             cast_to=MapleStoryCharacterItemEquipment,
-            # cast_to=Dict[str, Any],
         )
 
     def get_character_cash_item_equipment(
@@ -2474,6 +2470,9 @@ class CashItemEquipment(BaseModel):
     cash_item_coloring_prism: Optional[CashItemColoringPrism]
     """ 캐시 장비 컬러링 프리즘 정보 """
 
+    item_gender: Optional[str]
+    """ 아이템 장착 가능 성별 """
+
     class CashItemOption(BaseModel):
         option_type: str
         """ 옵션 타입 """
@@ -2482,9 +2481,6 @@ class CashItemEquipment(BaseModel):
         """ 옵션 값 """
 
     class CashItemColoringPrism(BaseModel):
-        description: str
-        """ 캐시 장비 컬러링 프리즘 정보 """
-
         color_range: str
         """ 컬러링프리즘 색상 범위 """
 
@@ -2991,27 +2987,26 @@ class MapleStoryCharacterCashItemEquipment(BaseModel):
     preset_no: int
     """ 적용 중인 캐시 장비 프리셋 번호 """
 
-    cash_item_equipment_preset_1: List[CharacterCashItemEquipment]
+    cash_item_equipment_base: Optional[List[CashItemEquipment]]
+    """ 장착 중인 캐시 장비 정보 """
+
+    cash_item_equipment_preset_1: List[CashItemEquipment]
     """ 1번 프리셋 장착 캐시 장비 정보 """
 
-    cash_item_equipment_preset_2: List[CharacterCashItemEquipment]
+    cash_item_equipment_preset_2: List[CashItemEquipment]
     """ 2번 프리셋 장착 캐시 장비 정보 """
 
-    cash_item_equipment_preset_3: List[CharacterCashItemEquipment]
+    cash_item_equipment_preset_3: List[CashItemEquipment]
     """ 3번 프리셋 장착 캐시 장비 정보 """
 
-    additional_cash_item_equipment_preset_1: Optional[List[CharacterCashItemEquipment]]
+    additional_cash_item_equipment_preset_1: Optional[List[CashItemEquipment]]
     """ 제로인 경우 베타, 엔젤릭버스터인 경우 드레스 업 모드의 1번 프리셋 장착 캐시 장비 정보 """
 
-    additional_cash_item_equipment_preset_2: Optional[List[CharacterCashItemEquipment]]
+    additional_cash_item_equipment_preset_2: Optional[List[CashItemEquipment]]
     """ 제로인 경우 베타, 엔젤릭버스터인 경우 드레스 업 모드의 2번 프리셋 장착 캐시 장비 정보 """
 
-    additional_cash_item_equipment_preset_3: Optional[List[CharacterCashItemEquipment]]
+    additional_cash_item_equipment_preset_3: Optional[List[CashItemEquipment]]
     """ 제로인 경우 베타, 엔젤릭버스터인 경우 드레스 업 모드의 3번 프리셋 장착 캐시 장비 정보 """
-
-    class CharacterCashItemEquipment(CashItemEquipment):
-        base_preset_item_disable_flag: str
-        """ 다른 프리셋에서 장비 추가 장착 없이 프리셋의 장비 공유를 비활성화 했는지 여부 """
 
 
 class GetCharacterSymbolEquipmentRequestParam(TypedDict, total=False):
@@ -3265,10 +3260,8 @@ class MapleStoryCharacterPetEquipment(BaseModel):
         scroll_upgrade: int
         """ 업그레이드 횟수 """
 
-        scroll_upgradable: int
-        """ 업그레이드 가능 횟수 
-        TODO: 반환되는 정보가 실제 API 명세와 일치하지 않음, 해당 값은 응답 값을 기준으로 작성
-        """
+        scroll_upgradeable: int
+        """ 업그레이드 가능 횟수 """
 
         class PetItemOption(BaseModel):
             option_type: str
@@ -3640,9 +3633,7 @@ class MapleStoryGuildBasic(BaseModel):
     """ 길드 스킬 목록"""
 
     guild_noblesse_skill: List[GuildSkill]
-    """ 노블레스 스킬 목록
-    TODO: 반환되는 정보가 실제 API 명세와 일치하지 않음, 해당 값은 응답 값을 기준으로 작성
-    """
+    """ 노블레스 스킬 목록 """
 
     guild_mark: Optional[str]
     """ 조합형 길드 마크 """
