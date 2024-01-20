@@ -2712,6 +2712,18 @@ class MapleStoryCharacterAbility(BaseModel):
     remain_fame: int
     """ 보유 명성치 """
 
+    preset_no: Optional[int]
+    """ 적용 중인 어빌리티 프리셋 번호 """
+
+    ability_preset_1: Optional[AbilityPreset]
+    """ 어빌리티 1번 프리셋 전체 정보 """
+
+    ability_preset_2: Optional[AbilityPreset]
+    """ 어빌리티 2번 프리셋 전체 정보 """
+
+    ability_preset_3: Optional[AbilityPreset]
+    """ 어빌리티 3번 프리셋 전체 정보 """
+
     class AbilityInfo(BaseModel):
         ability_no: str
         """ 어빌리티 번호 """
@@ -2721,6 +2733,12 @@ class MapleStoryCharacterAbility(BaseModel):
 
         ability_value: str
         """ 어빌리티 옵션 및 수치 """
+
+    class AbilityPreset(BaseModel):
+        ability_preset_grade: str
+        """ 어빌리티 프리셋의 어빌리티 등급 """
+
+        ability_info: List["AbilityInfo"]
 
 
 class GetCharacterItemEquipmentRequestParam(TypedDict, total=False):
