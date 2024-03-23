@@ -1,3 +1,7 @@
+## v0.0.9
+### Fixed
+- 메이플스토리 일부 DTO의 type constaints 수정
+
 ## v0.0.8
 ### Added
 - 메이플스토리 실시간 조회 적용
