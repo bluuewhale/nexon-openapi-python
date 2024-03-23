@@ -3879,7 +3879,7 @@ class MapleStoryGuildBasic(BaseModel):
 
 
 class GetOverallRankingRequestParam(TypedDict, total=False):
-    date: Optional[str]
+    date: Required[str]
     """ 조회 기준일 (KST) """
 
     world_name: str
@@ -4036,7 +4036,7 @@ class MapleStoryOverallRanking(BaseModel):
 
 
 class GetUnionRankingRequestParam(TypedDict, total=False):
-    date: Optional[str]
+    date: Required[str]
     """ 조회 기준일 (KST) """
 
     world_name: str
@@ -4082,7 +4082,7 @@ class MapleStoryUnionRanking(BaseModel):
 
 
 class GetGuildRankingRequestParam(TypedDict, total=False):
-    date: Optional[str]
+    date: Required[str]
     """ 조회 기준일 (KST) """
 
     world_name: str
@@ -4131,7 +4131,7 @@ class MapleStoryGuildRanking(BaseModel):
 
 
 class GetDojangRankingRequestParam(TypedDict, total=False):
-    date: Optional[str]
+    date: Required[str]
     """ 조회 기준일 (KST) """
 
     world_name: str
@@ -4285,7 +4285,7 @@ class MapleStoryDojangRanking(BaseModel):
 
 
 class GetTheSeedRankingRequestParam(TypedDict, total=False):
-    date: Optional[str]
+    date: Required[str]
     """ 조회 기준일 (KST) """
 
     world_name: str
@@ -4334,7 +4334,7 @@ class MapleStoryTheSeedRanking(BaseModel):
 
 
 class GetAchievementRankingRequestParam(TypedDict, total=False):
-    date: Optional[str]
+    date: Required[str]
     """ 조회 기준일 (KST) """
 
     ocid: str
@@ -4377,7 +4377,7 @@ class GetStartforceHistoryRequestParam(TypedDict, total=False):
     count: Required[int]
     """ 한번에 가져오려는 결과의 갯수(최소 10, 최대 1000) """
 
-    date: str
+    date: Required[str]
     """ 조회 기준일 (KST) """
 
     cursor: str
