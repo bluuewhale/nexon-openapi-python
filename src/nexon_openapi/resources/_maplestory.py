@@ -3462,6 +3462,9 @@ class MapleStoryCharacterSkill(BaseModel):
         skill_effect: str
         """ 스킬 레벨 별 효과 설명 """
 
+        skill_effect_next: str
+        """ 다음 스킬 레벨 별 효과 설명 """
+
         skill_icon: str
         """ 스킬 아이콘 """
 
