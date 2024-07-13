@@ -1,6 +1,8 @@
-## v0.0.11
+## v0.0.9
+- new support for `The Fisrt Descendant` :fire:
+
 ### Added
-- new support for `The Fisrt Descendant`
+- add 15 apis for `The First Descendant`
   - `get_ouid`
   - `get_user_basic`
   - `get_user_descendant`
@@ -16,9 +18,6 @@
   - `get_stat_metadata`
   - `get_void_battle_metadata`
   - `get_title_metadata`
-
-## v0.0.10
-### Added
 - add `skill_effect_next` field to `MapleStoryCharacterSkill`
 - new api endpoint `get_character_list` in MapleStory
 -  add new fields `character_date_create`, `access_flag`, `liberation_quest_clear_flag` to `MapleStoryCharacterBasic`
@@ -28,10 +27,6 @@
 
 ### Fixed
 -  type mismatch in `MapleStoryCharacterLinkSkill`
-
-## v0.0.9
-### Fixed
-- 메이플스토리 일부 DTO의 type constaints 수정
 
 ## v0.0.8
 ### Added
