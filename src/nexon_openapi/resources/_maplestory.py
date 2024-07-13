@@ -3481,7 +3481,7 @@ class MapleStoryCharacterLinkSkill(BaseModel):
     character_class: str
     """ 캐릭터 직업 """
 
-    character_link_skill: List[CharacterLinkSkill]
+    character_link_skill: CharacterLinkSkill
     """ 링크 스킬 정보 """
 
     character_link_skill_preset_1: Optional[List[CharacterLinkSkill]]
@@ -3517,6 +3517,10 @@ class MapleStoryCharacterLinkSkill(BaseModel):
 
         skill_effect: str
         """ 스킬 효과 """
+
+        skill_effect_next: str
+        """ 다음 레벨의 스킬 효과 """
+
 
         skill_icon: str
         """ 스킬 아이콘 """
