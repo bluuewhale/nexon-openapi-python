@@ -2668,9 +2668,21 @@ class MapleStoryCharacterBasic(BaseModel):
     character_image: int
     """ 캐릭터 외형 이미지 """
 
+    character_date_create: str
+    """ 캐릭터 생성일 (KST) """
+
+    access_flag: str
+    """ 최근 7일간 접속 여부 (true: 접속, false: 미접속) """
+
+    liberation_quest_clear_flag: str
+    """ 해방 퀘스트 완료 여부 (true: 완료, false: 미완료) """
+
+
+
 # character list
 class GetCharacterListRequestParam(TypedDict, total=False):
     pass
+
 
 class MapleStoryCharacterList(BaseModel):
     account_id: str
@@ -2678,7 +2690,6 @@ class MapleStoryCharacterList(BaseModel):
 
     character_list: List[CharacterInfo]
     """ 캐릭터 목록 """
-
 
     class CharacterInfo(BaseModel):
         ocid: str
