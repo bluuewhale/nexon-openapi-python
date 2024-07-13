@@ -97,6 +97,28 @@ class MapleStory(SyncAPIResource):
             cast_to=MapleStoryCharacterBasic,
         )
 
+    def get_character_list(
+        self,
+        *,
+        ocid: str,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryCharacterList:
+
+        return self._get(
+            path="maplestory/v1/character/list",
+            options=make_request_options(
+                query=maybe_transform({}, GetCharacterListRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryCharacterList,
+        )
+
     def get_character_popularity(
         self,
         *,
@@ -1319,6 +1341,26 @@ class MapleStoryAsync(AsyncAPIResource):
                 timeout=timeout,
             ),
             cast_to=MapleStoryCharacterBasic,
+        )
+
+    async def get_character_list(
+        self,
+        *,
+        extra_headers: Optional[Headers] = None,
+        extra_query: Optional[Query] = None,
+        extra_body: Optional[Body] = None,
+        timeout: Union[float, httpx.Timeout, None, NotGiven] = NOT_GIVEN,
+    ) -> MapleStoryCharacterList:
+        return await self._get(
+            path="maplestory/v1/character/list",
+            options=make_request_options(
+                query=maybe_transform({}, GetCharacterListRequestParam),
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            ),
+            cast_to=MapleStoryCharacterList,
         )
 
     async def get_character_popularity(
@@ -2626,7 +2668,36 @@ class MapleStoryCharacterBasic(BaseModel):
     character_image: int
     """ 캐릭터 외형 이미지 """
 
+# character list
+class GetCharacterListRequestParam(TypedDict, total=False):
+    pass
 
+class MapleStoryCharacterList(BaseModel):
+    account_id: str
+    """ 메이플스토리 계정 식별자 """
+
+    character_list: List[CharacterInfo]
+    """ 캐릭터 목록 """
+
+
+    class CharacterInfo(BaseModel):
+        ocid: str
+        """ 캐릭터 식별자 """
+
+        character_name: str
+        """ 캐릭터 명 """
+
+        world_name: str
+        """ 월드 명 """
+
+        character_class: str
+        """ 캐릭터 직업 """
+
+        character_level: int
+        """ 캐릭터 레벨 """
+
+
+# character popularity
 class GetCharacterPopularityRequestParam(TypedDict, total=False):
     ocid: Required[str]
     date: Optional[str]
