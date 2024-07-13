@@ -1,5 +1,5 @@
 ## v0.0.9
-- new support for `The Fisrt Descendant` :fire:
+new support for `The Fisrt Descendant` :fire:
 
 ### Added
 - add 15 apis for `The First Descendant`
