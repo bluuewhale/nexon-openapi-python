@@ -9,3 +9,4 @@ from ._kartrush import KartRiderRushPlus as KartRiderRushPlus, KartRiderRushPlus
 from ._hit2 import Hit2 as Hit2, Hit2Async as Hit2Async
 from ._v4 import V4 as V4, V4Async as V4Async
 from ._fc_online import FCOnline as FCOnline, FCOnlineAsync as FCOnlineAsync
+from ._the_first_descendant import TFD as TFD, TFDAsync as TFDAsync

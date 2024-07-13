@@ -37,6 +37,8 @@ from .resources import (
     V4Async,
     FCOnline,
     FCOnlineAsync,
+    TFD,
+    TFDAsync,
 )
 
 
@@ -54,6 +56,7 @@ class NexonOpenAPI(SyncAPIClient):
     v4: V4
     fc_online: FCOnline
     maplestory: MapleStory
+    tfd: TFD
 
     def __init__(
         self,
@@ -112,6 +115,7 @@ class NexonOpenAPI(SyncAPIClient):
         self.hit2 = Hit2(self)
         self.v4 = V4(self)
         self.fc_online = FCOnline(self)
+        self.tfd = TFD(self)
 
     @override
     def _make_status_error(
@@ -180,6 +184,7 @@ class NexonOpenAPIAsync(AsyncAPIClient):
     hit2: Hit2Async
     v4: V4Async
     fc_online: FCOnlineAsync
+    tfd: TFDAsync
 
     def __init__(
         self,
@@ -238,6 +243,7 @@ class NexonOpenAPIAsync(AsyncAPIClient):
         self.hit2 = Hit2Async(self)
         self.v4 = V4Async(self)
         self.fc_online = FCOnlineAsync(self)
+        self.tfd = TFDAsync(self)
 
     @override
     def _make_status_error(
