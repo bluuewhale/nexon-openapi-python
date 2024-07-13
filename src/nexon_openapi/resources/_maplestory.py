@@ -3521,7 +3521,6 @@ class MapleStoryCharacterLinkSkill(BaseModel):
         skill_effect_next: str
         """ 다음 레벨의 스킬 효과 """
 
-
         skill_icon: str
         """ 스킬 아이콘 """
 
@@ -3861,12 +3860,6 @@ class MapleStoryGuildBasic(BaseModel):
 
     guild_noblesse_skill: List[GuildSkill]
     """ 노블레스 스킬 목록 """
-
-    guild_mark: Optional[str]
-    """ 조합형 길드 마크 """
-
-    guild_mark_custom: Optional[str]
-    """ 커스텀 길드 마크 (base64 인코딩 형식) """
 
     class GuildSkill(BaseModel):
         skill_name: str
