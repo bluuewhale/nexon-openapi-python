@@ -1,3 +1,34 @@
+## v0.0.11
+### Added
+- new support for `The Fisrt Descendant`
+  - `get_ouid`
+  - `get_user_basic`
+  - `get_user_descendant`
+  - `get_user_weapon`
+  - `get_user_reactor`
+  - `get_user_external_component`
+  - `get_descendant_metadata`
+  - `get_weapon_metadata`
+  - `get_module_metadata`
+  - `get_reactor_metadata`
+  - `get_external_config_metadata`
+  - `get_reward_metadata`
+  - `get_stat_metadata`
+  - `get_void_battle_metadata`
+  - `get_title_metadata`
+
+## v0.0.10
+### Added
+- add `skill_effect_next` field to `MapleStoryCharacterSkill`
+- new api endpoint `get_character_list` in MapleStory
+-  add new fields `character_date_create`, `access_flag`, `liberation_quest_clear_flag` to `MapleStoryCharacterBasic`
+
+### Deprecated
+- `guild_mark` and `_guild_mark_custom` deprecated from `GuildBasic` in MapleStory
+
+### Fixed
+-  type mismatch in `MapleStoryCharacterLinkSkill`
+
 ## v0.0.9
 ### Fixed
 - 메이플스토리 일부 DTO의 type constaints 수정
